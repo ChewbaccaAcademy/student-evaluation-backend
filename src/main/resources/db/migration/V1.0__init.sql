@@ -1,3 +1,3 @@
-CREATE TABLE test {
+CREATE TABLE test (
     id int PRIMARY KEY
-};
+);
