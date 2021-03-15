@@ -3,8 +3,8 @@ package com.teamthree.studentevaluation;
 
 import com.teamthree.studentevaluation.models.AuthenticationRequest;
 import com.teamthree.studentevaluation.service.LoginService;
-import io.jsonwebtoken.Jwt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,19 +21,23 @@ public class HelloController {
         this.loginService = loginService;
     }
 
+    @PreAuthorize("isAuthenticated() and hasAuthority('admin')")
     @RequestMapping("/hello")
     public String index() {
         return "Hello world!";
     }
 
+
+    @PreAuthorize("permitAll")
     @RequestMapping("/hello2")
     public String index2() {
         return "Hello world!";
     }
 
+    @PreAuthorize("permitAll")
     @RequestMapping(path = "/authenticate", method = RequestMethod.POST)
     public String createAuthenticationToken(@RequestBody AuthenticationRequest
-                                                 authenticationRequest) throws Exception {
+                                                    authenticationRequest) throws Exception {
         return loginService.authenticate(authenticationRequest);
 
     }

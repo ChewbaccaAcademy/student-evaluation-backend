@@ -23,5 +23,6 @@ public class LoginUserDetailsService implements UserDetailsService {
         Optional<User> user = userRepository.findByUsername(username);
         user.orElseThrow(() -> new UsernameNotFoundException("Not found:" + username));
         return user.map(LoginUserDetails::new).get();
+
     }
 }
