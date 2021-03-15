@@ -1,18 +1,18 @@
 package com.teamthree.studentevaluation.user.entity;
 
 public enum Stream {
-    FRONTEND(0),
-    BACKEND(1),
-    TESTING(2),
-    PROJECT(3);
+    FRONTEND(new Role(2)),
+    BACKEND(new Role(2)),
+    TESTING(new Role(2)),
+    PROJECT(new Role(2));
 
-    private final int roleCode;
+    private final Role roleCode;
 
-    public int getRoleCode() {
+    public Role getRoleCode() {
         return roleCode;
     }
 
-    Stream(int roleCode) {
+    Stream(Role roleCode) {
         this.roleCode = roleCode;
     }
 

@@ -22,7 +22,7 @@ public class UserController {
     }
 
     @PostMapping
-    public void registerNewUser(@RequestBody @Valid UserDto userDto) {
+    public void registerNewUser(@Valid @RequestBody UserDto userDto) {
         userService.registerNewUser(userDto);
     }
 

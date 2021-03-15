@@ -5,6 +5,7 @@ import com.teamthree.studentevaluation.user.model.UserDto;
 import com.teamthree.studentevaluation.user.repository.UserRepository;
 import com.teamthree.studentevaluation.user.validators.InputDataValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,13 +26,17 @@ public class UserService {
     public void registerNewUser(UserDto userDto) {
         inputDataValidator.isUsernameAvailable(userDto.getUsername());
         inputDataValidator.isEmailAvailable(userDto.getEmail());
-        String passwordHash = encoder.encode(userDto.getPassword());
-        User user = new User(userDto.getUsername(),
-                passwordHash,
-                userDto.getStream().name(),
-                userDto.getEmail(),
-                userDto.getStream().getRoleCode());
-        userRepository.save(user);
+        /*try {*/
+            String passwordHash = encoder.encode(userDto.getPassword());
+            User user = new User(userDto.getUsername(),
+                    passwordHash,
+                    userDto.getStream().name(),
+                    userDto.getEmail(),
+                    userDto.getStream().getRoleCode());
+            userRepository.save(user);
+        /*} catch (DataIntegrityViolationException e) {
+            System.out.println(e.getMessage());
+        }*/
     }
 
 }

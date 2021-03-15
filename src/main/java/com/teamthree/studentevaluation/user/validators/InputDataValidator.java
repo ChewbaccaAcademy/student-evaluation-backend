@@ -20,14 +20,12 @@ public class InputDataValidator {
         if (userRepository.findUserByUsername(username).isPresent()) {
             throw new UsernameIsAlreadyInUseException();
         }
-        ;
     }
 
     public void isEmailAvailable(String email) throws EmailIsAlreadyInUseException {
         if (userRepository.findUserByEmail(email).isPresent()) {
             throw new EmailIsAlreadyInUseException();
         }
-        ;
     }
 
 }

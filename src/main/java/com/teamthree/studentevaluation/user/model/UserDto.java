@@ -9,12 +9,10 @@ import javax.validation.constraints.Size;
 
 public class UserDto {
 
-    @NotNull
     @NotBlank(message = "Username is mandatory")
     @Size(min = 5, max = 40)
     private String username;
 
-    @NotNull
     @NotBlank(message = "Password is mandatory")
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z]).{8,50}$")
     private String password;
@@ -22,9 +20,8 @@ public class UserDto {
     @NotNull
     private Stream stream;
 
-    @NotNull
     @NotBlank(message = "Email is mandatory")
-    @Pattern(regexp = "^(.+)@(.+)$")
+    @Pattern(regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
     private String email;
 
     public String getUsername() {
