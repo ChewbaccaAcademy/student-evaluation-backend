@@ -7,9 +7,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
-public class LoginUserDetails implements UserDetails{
+public class LoginUserDetails implements UserDetails {
 
     private int id;
     private String username;
@@ -18,11 +17,11 @@ public class LoginUserDetails implements UserDetails{
     private List<GrantedAuthority> role;
 
     public LoginUserDetails(User user) {
-       this.id = user.getId();
-       this.email = user.getEmail();
-       this.password = user.getPassword();
-       this.username = user.getUsername();
-       this.role = Arrays.asList(new SimpleGrantedAuthority(user.getRole()));
+        this.id = user.getId();
+        this.email = user.getEmail();
+        this.password = user.getPassword();
+        this.username = user.getUsername();
+        this.role = Arrays.asList(new SimpleGrantedAuthority(user.getRole()));
     }
 
 

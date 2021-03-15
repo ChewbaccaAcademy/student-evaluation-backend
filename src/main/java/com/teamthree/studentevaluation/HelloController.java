@@ -2,14 +2,9 @@ package com.teamthree.studentevaluation;
 
 
 import com.teamthree.studentevaluation.models.AuthenticationRequest;
-import com.teamthree.studentevaluation.models.AuthenticationResponse;
-import com.teamthree.studentevaluation.util.JwtUtil;
+import com.teamthree.studentevaluation.service.LoginService;
+import io.jsonwebtoken.Jwt;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,37 +13,28 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HelloController {
 
-    @Autowired
-    private LoginUserDetailsService userDetailsService;
+
+    private LoginService loginService;
 
     @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private JwtUtil jwtTokenUtil;
+    public HelloController(LoginService loginService) {
+        this.loginService = loginService;
+    }
 
     @RequestMapping("/hello")
     public String index() {
         return "Hello world!";
     }
+
     @RequestMapping("/hello2")
     public String index2() {
         return "Hello world!";
     }
 
     @RequestMapping(path = "/authenticate", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest
-                                                           authenticationRequest) throws Exception{
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest
-                    .getUsername(),authenticationRequest.getPassword()));
-        }catch (BadCredentialsException e){
-            throw new Exception("Incorrect username or password!", e);
-        }
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+    public String createAuthenticationToken(@RequestBody AuthenticationRequest
+                                                 authenticationRequest) throws Exception {
+        return loginService.authenticate(authenticationRequest);
 
-        final String jwt = jwtTokenUtil.generateToken(userDetails);
-        return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
-
 }
