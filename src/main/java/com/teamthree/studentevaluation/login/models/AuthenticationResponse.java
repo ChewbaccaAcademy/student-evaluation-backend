@@ -1,4 +1,4 @@
-package com.teamthree.studentevaluation.models;
+package com.teamthree.studentevaluation.login.models;
 
 public class AuthenticationResponse {
     private final String jwt;

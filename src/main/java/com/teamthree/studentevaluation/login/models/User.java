@@ -1,4 +1,4 @@
-package com.teamthree.studentevaluation.models;
+package com.teamthree.studentevaluation.login.models;
 
 import javax.persistence.*;
 

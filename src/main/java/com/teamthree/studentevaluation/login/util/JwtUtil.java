@@ -1,4 +1,4 @@
-package com.teamthree.studentevaluation.util;
+package com.teamthree.studentevaluation.login.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

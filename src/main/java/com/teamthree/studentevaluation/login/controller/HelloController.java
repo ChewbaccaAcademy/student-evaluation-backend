@@ -1,8 +1,8 @@
-package com.teamthree.studentevaluation;
+package com.teamthree.studentevaluation.login.controller;
 
 
-import com.teamthree.studentevaluation.models.AuthenticationRequest;
-import com.teamthree.studentevaluation.service.LoginService;
+import com.teamthree.studentevaluation.login.models.AuthenticationRequest;
+import com.teamthree.studentevaluation.login.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;

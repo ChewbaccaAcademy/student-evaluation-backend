@@ -1,8 +1,8 @@
-package com.teamthree.studentevaluation;
+package com.teamthree.studentevaluation.login.service;
 
-import com.teamthree.studentevaluation.models.LoginUserDetails;
-import com.teamthree.studentevaluation.models.User;
-import com.teamthree.studentevaluation.models.UserRepository;
+import com.teamthree.studentevaluation.login.models.LoginUserDetails;
+import com.teamthree.studentevaluation.login.models.User;
+import com.teamthree.studentevaluation.login.models.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

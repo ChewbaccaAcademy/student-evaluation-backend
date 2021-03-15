@@ -1,8 +1,7 @@
-package com.teamthree.studentevaluation.service;
+package com.teamthree.studentevaluation.login.service;
 
-import com.teamthree.studentevaluation.LoginUserDetailsService;
-import com.teamthree.studentevaluation.models.AuthenticationRequest;
-import com.teamthree.studentevaluation.util.JwtUtil;
+import com.teamthree.studentevaluation.login.models.AuthenticationRequest;
+import com.teamthree.studentevaluation.login.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;

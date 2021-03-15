@@ -1,7 +1,7 @@
-package com.teamthree.studentevaluation.security;
+package com.teamthree.studentevaluation.login.security;
 
-import com.teamthree.studentevaluation.LoginUserDetailsService;
-import com.teamthree.studentevaluation.filter.JwtRequestFilter;
+import com.teamthree.studentevaluation.login.service.LoginUserDetailsService;
+import com.teamthree.studentevaluation.login.filter.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
