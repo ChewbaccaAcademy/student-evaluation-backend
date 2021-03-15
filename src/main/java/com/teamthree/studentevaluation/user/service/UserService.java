@@ -1,6 +1,7 @@
 package com.teamthree.studentevaluation.user.service;
 
 import com.teamthree.studentevaluation.user.entity.User;
+import com.teamthree.studentevaluation.user.model.LoginDto;
 import com.teamthree.studentevaluation.user.model.UserDto;
 import com.teamthree.studentevaluation.user.repository.UserRepository;
 import com.teamthree.studentevaluation.user.validators.InputDataValidator;
@@ -35,4 +36,9 @@ public class UserService {
 
     }
 
+    public void checkLogin(LoginDto loginDto){
+        String passwordHash = encoder.encode(loginDto.getPassword());
+        inputDataValidator.isLoginCredentialsExists(loginDto.getEmail(), passwordHash);
+
+    }
 }

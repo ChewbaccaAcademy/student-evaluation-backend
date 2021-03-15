@@ -1,10 +1,10 @@
-package com.teamthree.studentevaluation;
+package com.teamthree.studentevaluation.user.model;
 
 
-public class Login {
-    public String email;
-    public String password;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
+public class LoginDto {
     @NotBlank(message = "Password is mandatory")
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z]).{8,50}$")
     private String password;
@@ -13,9 +13,7 @@ public class Login {
     @Pattern(regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
     private String email;
 
-    public String getPassword() {
-        return password;
-    }
+    public String getPassword() { return password; }
 
     public String getEmail() {
         return email;

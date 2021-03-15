@@ -1,5 +1,6 @@
 package com.teamthree.studentevaluation.user.validators;
 
+import com.teamthree.studentevaluation.user.exceptions.EmailAndPasswordNotMatchException;
 import com.teamthree.studentevaluation.user.exceptions.EmailIsAlreadyInUseException;
 import com.teamthree.studentevaluation.user.exceptions.UsernameIsAlreadyInUseException;
 import com.teamthree.studentevaluation.user.repository.UserRepository;
@@ -25,6 +26,12 @@ public class InputDataValidator {
     public void isEmailAvailable(String email) throws EmailIsAlreadyInUseException {
         if (userRepository.findUserByEmail(email).isPresent()) {
             throw new EmailIsAlreadyInUseException();
+        }
+    }
+
+    public void isLoginCredentialsExists(String email, String password) throws EmailAndPasswordNotMatchException {
+        if (userRepository.checkLoginDetails(email, password).isPresent()) {
+            throw new EmailAndPasswordNotMatchException();
         }
     }
 
