@@ -16,7 +16,6 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4401")
 @RequestMapping("/student")
 public class StudentController {
 
