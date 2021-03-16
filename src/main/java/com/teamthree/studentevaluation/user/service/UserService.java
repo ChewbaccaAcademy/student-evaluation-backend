@@ -2,6 +2,7 @@ package com.teamthree.studentevaluation.user.service;
 
 import com.teamthree.studentevaluation.user.entity.User;
 import com.teamthree.studentevaluation.user.model.UserDto;
+import com.teamthree.studentevaluation.user.model.LoginDto;
 import com.teamthree.studentevaluation.user.repository.UserRepository;
 import com.teamthree.studentevaluation.user.validators.InputDataValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,11 @@ public class UserService {
                 userDto.getEmail(),
                 userDto.getStream().getRoleCode());
         userRepository.save(user);
+    }
+
+    public void checkLogin(LoginDto loginDto){
+        String passwordHash = encoder.encode(loginDto.getPassword());
+        inputDataValidator.isUserAvailableWithGivenCredentials(loginDto.getEmail(), passwordHash);
 
     }
 
