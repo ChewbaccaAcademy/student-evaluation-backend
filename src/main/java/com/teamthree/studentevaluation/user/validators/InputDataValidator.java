@@ -30,7 +30,7 @@ public class InputDataValidator {
     }
 
     public void isLoginCredentialsExists(String email, String password) throws EmailAndPasswordNotMatchException {
-        if (userRepository.checkLoginDetails(email, password).isPresent()) {
+        if (userRepository.findUserByUsernameAndPassword(email, password).isPresent()) {
             throw new EmailAndPasswordNotMatchException();
         }
     }
