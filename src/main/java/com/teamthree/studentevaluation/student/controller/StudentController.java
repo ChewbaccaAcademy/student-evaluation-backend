@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/student")
-@CrossOrigin(origins = "https://team-three-frontend.herokuapp.com")
+@CrossOrigin(origins = "https://team-three-frontend.herokuapp.com/student")
 public class StudentController {
 
     final private StudentService studentService;
