@@ -15,8 +15,13 @@ import java.util.Optional;
 @Service
 public class LoginUserDetailsService implements UserDetailsService {
 
+
+    private final UserRepository userRepository;
+
     @Autowired
-    UserRepository userRepository;
+    public LoginUserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
