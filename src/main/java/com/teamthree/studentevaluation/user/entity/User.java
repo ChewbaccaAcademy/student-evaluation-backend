@@ -60,5 +60,9 @@ public class User implements Serializable {
         return email;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
 
 }

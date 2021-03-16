@@ -23,4 +23,7 @@ public class Role {
         this.id = id;
     }
 
+    public String getRoleType() {
+        return roleType;
+    }
 }
