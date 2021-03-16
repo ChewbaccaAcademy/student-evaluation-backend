@@ -30,7 +30,7 @@ public class InputDataValidator {
     }
 
     public void isUserAvailableWithGivenCredentials(String email, String password) throws BadLoginCredentialsException {
-        if (userRepository.findUserByUsernameAndPassword(email, password).isPresent()) {
+        if (!userRepository.findUserByUsernameAndPassword(email, password).isPresent()) {
             throw new BadLoginCredentialsException();
         }
     }
