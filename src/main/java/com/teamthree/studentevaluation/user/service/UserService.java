@@ -37,7 +37,7 @@ public class UserService {
 
     public void checkLogin(LoginDto loginDto){
         String passwordHash = encoder.encode(loginDto.getPassword());
-        inputDataValidator.isLoginCredentialsExists(loginDto.getEmail(), passwordHash);
+        inputDataValidator.isUserAvailableWithGivenCredentials(loginDto.getEmail(), passwordHash);
 
     }
 
