@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,6 +29,7 @@ public class StudentController {
         this.studentService = studentService;
     }
 
+    @PreAuthorize("permitAll")
     @GetMapping(produces = "application/json")
     public ResponseEntity<List<Student>> getAllStudents() {
         List<Student> students = this.studentService.getAllStudent();
@@ -38,6 +40,7 @@ public class StudentController {
         }
     }
 
+    @PreAuthorize("permitAll")
     @GetMapping("{id}")
     public ResponseEntity<Student> getStudentById(@PathVariable Long id) {
         try {
@@ -48,18 +51,21 @@ public class StudentController {
         }
     }
 
+    @PreAuthorize("permitAll")
     @PostMapping
     public ResponseEntity<Student> addStudent(@RequestPart("student") @Valid AddStudentDto studentDto, @RequestPart("image") @Nullable MultipartFile imageFile) {
         Student addStudent = this.studentService.addStudent(studentDto, imageFile);
         return new ResponseEntity<>(addStudent, HttpStatus.CREATED);
     }
 
+    @PreAuthorize("permitAll")
     @PutMapping("{id}")
     public ResponseEntity<Student> updateStudent(@PathVariable Long id, @RequestPart("student") @Valid UpdateStudentDto studentDto, @RequestPart("image") @Nullable MultipartFile imageFile) {
         Student updateStudent = this.studentService.updateStudent(id, studentDto, imageFile);
         return new ResponseEntity<>(updateStudent, HttpStatus.OK);
     }
 
+    @PreAuthorize("permitAll")
     @DeleteMapping("{id}")
     public ResponseEntity<Student> deleteStudent(@PathVariable @NotNull @Valid Long id) {
         this.studentService.deleteStudentById(id);
