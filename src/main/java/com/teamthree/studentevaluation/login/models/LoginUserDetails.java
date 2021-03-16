@@ -21,6 +21,7 @@ public class LoginUserDetails implements UserDetails {
     public LoginUserDetails(User user) {
         this.email = user.getEmail();
         this.password = user.getPassword();
+        this.stream = user.getStream();
         this.username = user.getUsername();
         this.role = Arrays.asList(new SimpleGrantedAuthority(user.getRole().getRoleType()));
     }
