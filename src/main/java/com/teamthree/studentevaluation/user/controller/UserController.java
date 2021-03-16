@@ -4,10 +4,7 @@ import com.teamthree.studentevaluation.user.model.UserDto;
 import com.teamthree.studentevaluation.user.model.LoginDto;
 import com.teamthree.studentevaluation.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -22,12 +19,14 @@ public class UserController {
     }
 
     @PostMapping
+    @CrossOrigin
     @RequestMapping("/signup")
     public void registerNewUser(@Valid @RequestBody UserDto userDto) {
         userService.registerNewUser(userDto);
     }
 
     @PostMapping
+    @CrossOrigin
     @RequestMapping("/login")
     public void login(@Valid @RequestBody LoginDto login) { userService.checkLogin(login); }
 }
