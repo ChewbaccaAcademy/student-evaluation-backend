@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class HelloController {
+public class LoginController {
 
 
     private LoginService loginService;
 
     @Autowired
-    public HelloController(LoginService loginService) {
+    public LoginController(LoginService loginService) {
         this.loginService = loginService;
     }
 
-    @PreAuthorize("isAuthenticated() and hasAuthority('admin')")    //example of authorisation for logged admin only
+    @PreAuthorize("isAuthenticated() and hasAuthority('ADMIN')")    //example of authorisation for logged admin only
     @RequestMapping("/hello")
     public String index() {
         return "Hello world!";
