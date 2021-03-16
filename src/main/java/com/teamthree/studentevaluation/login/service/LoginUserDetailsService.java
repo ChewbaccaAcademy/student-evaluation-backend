@@ -2,7 +2,7 @@ package com.teamthree.studentevaluation.login.service;
 
 import com.teamthree.studentevaluation.login.models.LoginUserDetails;
 import com.teamthree.studentevaluation.user.entity.User;
-
+import com.teamthree.studentevaluation.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,11 +16,11 @@ import java.util.Optional;
 public class LoginUserDetailsService implements UserDetailsService {
 
     @Autowired
-    LoginUserRepository userRepository;
+    UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByUsername(username);
+        Optional<User> user = userRepository.findUserByUsername(username);
         user.orElseThrow(() -> new UsernameNotFoundException("Not found:" + username));
         return user.map(LoginUserDetails::new).get();
 

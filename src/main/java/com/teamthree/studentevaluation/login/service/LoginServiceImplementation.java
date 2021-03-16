@@ -26,7 +26,7 @@ public class LoginServiceImplementation implements LoginService {
 
     @Override
     public String authenticate(AuthenticationRequest
-                                    authenticationRequest) throws Exception {
+                                       authenticationRequest) throws Exception {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest
                     .getUsername(), authenticationRequest.getPassword()));

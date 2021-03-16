@@ -1,17 +1,10 @@
 package com.teamthree.studentevaluation.login.models;
 
-import com.teamthree.studentevaluation.user.entity.Role;
 import com.teamthree.studentevaluation.user.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;

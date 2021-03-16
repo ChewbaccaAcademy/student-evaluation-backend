@@ -1,7 +1,7 @@
 package com.teamthree.studentevaluation.login.security;
 
-import com.teamthree.studentevaluation.login.service.LoginUserDetailsService;
 import com.teamthree.studentevaluation.login.filter.JwtRequestFilter;
+import com.teamthree.studentevaluation.login.service.LoginUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,13 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                //.authorizeRequests()
-                //.antMatchers(HttpMethod.GET, "/hello").hasAuthority("admin")
-                //.antMatchers(HttpMethod.GET, "/hello2").permitAll()// GET requests don't need auth
-                //.antMatchers(HttpMethod.POST, "/authenticate").permitAll()
-                //.and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
