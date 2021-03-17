@@ -34,7 +34,7 @@ public class LoginController {
 
     @PreAuthorize("permitAll")
     @CrossOrigin
-    @RequestMapping(path = "/authenticate", method = RequestMethod.POST, produces="application/json")
+    @RequestMapping(path = "/authenticate", method = RequestMethod.POST)
     public String createAuthenticationToken(@RequestBody AuthenticationRequest
                                                     authenticationRequest) throws Exception {
         return loginService.authenticate(authenticationRequest);
