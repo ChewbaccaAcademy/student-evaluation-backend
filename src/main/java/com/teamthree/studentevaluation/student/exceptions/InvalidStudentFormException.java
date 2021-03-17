@@ -5,10 +5,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.BAD_REQUEST)
 public class InvalidStudentFormException extends RuntimeException {
-    public InvalidStudentFormException() {
-        super();
-    }
-
     public InvalidStudentFormException(String message) {
         super(message);
     }
