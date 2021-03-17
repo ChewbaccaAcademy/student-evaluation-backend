@@ -1,5 +1,6 @@
 package com.teamthree.studentevaluation.login.util;
 
+import com.teamthree.studentevaluation.login.models.LoginUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -18,7 +19,7 @@ public class JwtUtil {
     @Value("${secret.key}")
     private String SECRET_KEY;
 
-    public String extractUsername(String token) {
+    public String extractEmail(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -39,9 +40,9 @@ public class JwtUtil {
         return extractExpiration(token).before(new Date());
     }
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(LoginUserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userDetails.getUsername());
+        return createToken(claims, userDetails.getEmail());
     }
 
     private String createToken(Map<String, Object> claims, String subject) {
@@ -50,9 +51,9 @@ public class JwtUtil {
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
     }
 
-    public Boolean validateToken(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    public Boolean validateToken(String token, LoginUserDetails userDetails) {
+        final String email = extractEmail(token);
+        return (email.equals(userDetails.getEmail()) && !isTokenExpired(token));
     }
 
 }

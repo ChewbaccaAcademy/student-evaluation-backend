@@ -21,6 +21,20 @@ public class LoginController {
         this.loginService = loginService;
     }
 
+
+    @PreAuthorize("isAuthenticated() and hasAuthority('ADMIN')")
+    @RequestMapping("/hello")
+    public String index() {
+        return "Hello world!";
+    }
+
+
+    // @PreAuthorize("permitAll")
+    @RequestMapping("/hello2")
+    public String index2() {
+        return "Hello world!";
+    }
+
     @PreAuthorize("permitAll")
     @RequestMapping(path = "/authenticate", method = RequestMethod.POST)
     public String createAuthenticationToken(@RequestBody AuthenticationRequest

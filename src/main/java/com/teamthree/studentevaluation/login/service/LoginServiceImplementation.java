@@ -2,6 +2,7 @@ package com.teamthree.studentevaluation.login.service;
 
 import com.teamthree.studentevaluation.login.exceptions.IncorrectUserOrEmailException;
 import com.teamthree.studentevaluation.login.models.AuthenticationRequest;
+import com.teamthree.studentevaluation.login.models.LoginUserDetails;
 import com.teamthree.studentevaluation.login.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,11 +31,11 @@ public class LoginServiceImplementation implements LoginService {
                                        authenticationRequest) throws Exception {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest
-                    .getUsername(), authenticationRequest.getPassword()));
+                    .getEmail(), authenticationRequest.getPassword()));
         } catch (BadCredentialsException e) {
             throw new IncorrectUserOrEmailException("Incorrect username or password!");
         }
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+        final LoginUserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getEmail());
 
         final String jwt = jwtTokenUtil.generateToken(userDetails);
 
