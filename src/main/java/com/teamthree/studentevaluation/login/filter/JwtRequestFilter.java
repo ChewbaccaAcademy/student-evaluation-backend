@@ -1,5 +1,6 @@
 package com.teamthree.studentevaluation.login.filter;
 
+import com.teamthree.studentevaluation.login.models.LoginUserDetails;
 import com.teamthree.studentevaluation.login.service.LoginUserDetailsService;
 import com.teamthree.studentevaluation.login.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,18 +35,18 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         final String authorizationHeader = request.getHeader("Authorization");
 
-        String username = null;
+        String email = null;
         String jwt = null;
 
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             jwt = authorizationHeader.substring(7);
-            username = jwtUtil.extractUsername(jwt);
+            email = jwtUtil.extractEmail(jwt);
         }
 
 
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+            LoginUserDetails userDetails = this.userDetailsService.loadUserByUsername(email);
 
             if (jwtUtil.validateToken(jwt, userDetails)) {
 
