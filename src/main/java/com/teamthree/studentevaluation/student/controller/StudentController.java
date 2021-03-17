@@ -16,10 +16,10 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@CrossOrigin(origins = "https://team-three-frontend.herokuapp.com/")
+
 @RestController
 @RequestMapping("/student")
-
+@CrossOrigin
 public class StudentController {
 
     final private StudentService studentService;
@@ -50,7 +50,7 @@ public class StudentController {
             return ResponseEntity.notFound().build();
         }
     }
-
+    @CrossOrigin
     @PreAuthorize("permitAll")
     @PostMapping
     public ResponseEntity<Student> addStudent(@RequestPart("student") @Valid AddStudentDto studentDto, @RequestPart("image") @Nullable MultipartFile imageFile) {
