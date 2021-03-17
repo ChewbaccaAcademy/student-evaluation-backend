@@ -1,6 +1,6 @@
 package com.teamthree.studentevaluation.user.controller;
 
-import com.teamthree.studentevaluation.user.exceptions.BadRegisterFormException;
+import com.teamthree.studentevaluation.user.exceptions.BadRegistrationFormException;
 import com.teamthree.studentevaluation.user.model.UserDto;
 import com.teamthree.studentevaluation.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class UserController {
         if (!bindingResult.hasErrors()) {
             userService.registerNewUser(userDto);
         } else {
-            throw new BadRegisterFormException();
+            throw new BadRegistrationFormException();
         }
     }
 
