@@ -5,8 +5,9 @@ import com.teamthree.studentevaluation.user.model.UserDto;
 import com.teamthree.studentevaluation.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 public class UserController {
@@ -21,7 +22,7 @@ public class UserController {
     @PostMapping
     @CrossOrigin
     @RequestMapping("/signup")
-    public void registerNewUser(@Validated @RequestBody UserDto userDto, BindingResult bindingResult) {
+    public void registerNewUser(@Valid @RequestBody UserDto userDto, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             userService.registerNewUser(userDto);
         } else {

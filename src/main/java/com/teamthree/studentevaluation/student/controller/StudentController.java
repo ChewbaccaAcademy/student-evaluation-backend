@@ -5,14 +5,12 @@ import com.teamthree.studentevaluation.student.exceptions.InvalidStudentFormExce
 import com.teamthree.studentevaluation.student.model.AddStudentDto;
 import com.teamthree.studentevaluation.student.model.UpdateStudentDto;
 import com.teamthree.studentevaluation.student.service.StudentService;
-import com.teamthree.studentevaluation.user.exceptions.BadRegisterFormException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
