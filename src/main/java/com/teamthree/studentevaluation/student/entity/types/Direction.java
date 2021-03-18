@@ -12,7 +12,8 @@ public enum Direction {
         this.type = type;
     }
 
-    public String getType() {
+    @Override
+    public String toString() {
         return type;
     }
 }

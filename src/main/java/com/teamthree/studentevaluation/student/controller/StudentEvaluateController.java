@@ -1,13 +1,14 @@
 package com.teamthree.studentevaluation.student.controller;
 
-
 import com.teamthree.studentevaluation.student.entity.Evaluation;
 import com.teamthree.studentevaluation.student.exceptions.InvalidStudentFormException;
 import com.teamthree.studentevaluation.student.model.AddEvaluationDto;
 import com.teamthree.studentevaluation.student.model.GetEvaluationDto;
 import com.teamthree.studentevaluation.student.service.StudentEvaluationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
@@ -19,6 +20,7 @@ public class StudentEvaluateController {
 
     final private StudentEvaluationService studentEvaluationService;
 
+    @Autowired
     public StudentEvaluateController(StudentEvaluationService studentEvaluationService) {
         this.studentEvaluationService = studentEvaluationService;
     }
@@ -41,6 +43,6 @@ public class StudentEvaluateController {
         if (!bindingResult.hasErrors()) {
             return this.studentEvaluationService.addStudentEvaluation(studentId, userId, addEvaluationDto);
         }
-        throw new InvalidStudentFormException("Invalid student form.");
+        throw new InvalidStudentFormException("Invalid evaluation form values.");
     }
 }

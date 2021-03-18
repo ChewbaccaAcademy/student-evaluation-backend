@@ -6,13 +6,14 @@ public enum Communication {
     COMMUNICATIVE("Communicative"),
     WRITTEN("Prefers written communication over verbal");
 
-    private String type;
+    private final String type;
 
     Communication(final String type) {
         this.type = type;
     }
 
-    public String getType() {
+    @Override
+    public String toString() {
         return type;
     }
 }

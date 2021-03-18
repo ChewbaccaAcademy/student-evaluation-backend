@@ -41,10 +41,10 @@ public class StudentEvaluationService {
                 evaluation.getId(),
                 evaluation.getStudentId(),
                 evaluation.getUserId(),
-                evaluation.getStream().getType(),
-                evaluation.getCommunication().getType(),
-                evaluation.getDirection().getType(),
-                evaluation.getLearnAbility().getType(),
+                evaluation.getStream().toString(),
+                evaluation.getCommunication().toString(),
+                evaluation.getDirection().toString(),
+                evaluation.getLearnAbility().toString(),
                 evaluation.getEvaluation(),
                 evaluation.getComment())).collect(Collectors.toList());
     }

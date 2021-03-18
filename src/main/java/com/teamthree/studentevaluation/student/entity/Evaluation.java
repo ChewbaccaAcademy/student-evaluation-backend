@@ -4,9 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.teamthree.studentevaluation.student.entity.types.*;
 import com.teamthree.studentevaluation.user.entity.User;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -26,7 +29,7 @@ public class Evaluation {
     @JoinColumn(name = "actor_id", nullable = false)
     private User user;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private Stream stream;
 
     @Enumerated(EnumType.ORDINAL)
@@ -43,6 +46,8 @@ public class Evaluation {
 
     @NotNull
     @Value("${evaluation: 0}")
+    @Min(value = 1, message = "Student evaluation should be between 1 and 5.")
+    @Max(value = 5, message = "Student evaluation should be between 1 and 5.")
     private Integer evaluation;
 
     @Size(max = 250)

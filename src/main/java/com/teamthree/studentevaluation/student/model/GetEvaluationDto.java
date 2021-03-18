@@ -2,23 +2,23 @@ package com.teamthree.studentevaluation.student.model;
 
 public class GetEvaluationDto {
 
-    private Long id;
+    private final Long id;
 
-    private Long studentId;
+    private final Long studentId;
 
-    private Long userId;
+    private final Long userId;
 
-    private String stream;
+    private final String stream;
 
-    private String communication;
+    private final String communication;
 
-    private String learnAbility;
+    private final String learnAbility;
 
-    private String direction;
+    private final String direction;
 
-    private Integer evaluation;
+    private final Integer evaluation;
 
-    private String comment;
+    private final String comment;
 
     public GetEvaluationDto(Long id, Long studentId, Long userId, String stream, String communication, String learnAbility, String direction, Integer evaluation, String comment) {
         this.id = id;
