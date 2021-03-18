@@ -6,8 +6,6 @@ import com.teamthree.studentevaluation.student.model.AddStudentDto;
 import com.teamthree.studentevaluation.student.model.UpdateStudentDto;
 import com.teamthree.studentevaluation.student.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 
@@ -33,52 +30,33 @@ public class StudentController {
 
     @PreAuthorize("permitAll")
     @GetMapping(produces = "application/json")
-    public ResponseEntity<List<Student>> getAllStudents() {
-        List<Student> students = this.studentService.getAllStudent();
-        if (!students.isEmpty()) {
-            return new ResponseEntity<>(students, HttpStatus.OK);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public List<Student> getAllStudents() {
+        return this.studentService.getAllStudent();
     }
 
     @PreAuthorize("permitAll")
     @GetMapping("{id}")
-    public ResponseEntity<Student> getStudentById(@PathVariable Long id) {
-        try {
-            Student student = this.studentService.getStudentById(id);
-            return new ResponseEntity<>(student, HttpStatus.OK);
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+    public Student getStudentById(@PathVariable Long id) {
+        return this.studentService.getStudentById(id);
     }
 
     @CrossOrigin
     @PreAuthorize("permitAll")
     @PostMapping
-    public ResponseEntity<Student> addStudent(@RequestPart("student") @Valid AddStudentDto studentDto, BindingResult bindingResult, @RequestPart("image") @Nullable MultipartFile imageFile) {
+    public Student addStudent(@RequestPart("student") @Valid AddStudentDto studentDto, BindingResult bindingResult, @RequestPart("image") @Nullable MultipartFile imageFile) {
         if (!bindingResult.hasErrors()) {
-            Student addStudent = this.studentService.addStudent(studentDto, imageFile);
-            return new ResponseEntity<>(addStudent, HttpStatus.CREATED);
+            return this.studentService.addStudent(studentDto, imageFile);
         }
         throw new InvalidStudentFormException("Invalid student form.");
     }
 
     @PreAuthorize("permitAll")
     @PutMapping("{id}")
-    public ResponseEntity<Student> updateStudent(@PathVariable Long id, @RequestPart("student") @Valid UpdateStudentDto studentDto, BindingResult bindingResult, @RequestPart("image") @Nullable MultipartFile imageFile) {
+    public Student updateStudent(@PathVariable Long id, @RequestPart("student") @Valid UpdateStudentDto studentDto, BindingResult bindingResult, @RequestPart("image") @Nullable MultipartFile imageFile) {
         if (!bindingResult.hasErrors()) {
-            Student updateStudent = this.studentService.updateStudent(id, studentDto, imageFile);
-            return new ResponseEntity<>(updateStudent, HttpStatus.OK);
+            return this.studentService.updateStudent(id, studentDto, imageFile);
         }
         throw new InvalidStudentFormException("Invalid student form.");
-    }
-
-    @PreAuthorize("permitAll")
-    @DeleteMapping("{id}")
-    public ResponseEntity<Student> deleteStudent(@PathVariable @NotNull @Valid Long id) {
-        this.studentService.deleteStudentById(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }
