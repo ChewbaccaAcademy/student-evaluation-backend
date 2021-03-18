@@ -1,11 +1,15 @@
 package com.teamthree.studentevaluation.user.entity;
 
+import com.teamthree.studentevaluation.student.entity.Evaluation;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "actor")
@@ -13,7 +17,7 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @NotBlank()
     @Size(min = 5, max = 40)
@@ -33,6 +37,9 @@ public class User implements Serializable {
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     private Role role;
 
+    @OneToMany(mappedBy = "evaluation")
+    private List<Evaluation> evaluation;
+
     public User() {
     }
 
@@ -42,6 +49,10 @@ public class User implements Serializable {
         this.stream = stream;
         this.email = email;
         this.role = role;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getUsername() {
