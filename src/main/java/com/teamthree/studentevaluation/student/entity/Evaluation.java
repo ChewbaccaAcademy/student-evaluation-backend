@@ -29,25 +29,26 @@ public class Evaluation {
     @JoinColumn(name = "actor_id", nullable = false)
     private User user;
 
+    @NotNull
     @Enumerated(EnumType.ORDINAL)
     private Stream stream;
 
+    @NotNull
     @Enumerated(EnumType.ORDINAL)
     @Column(columnDefinition = "smallint")
     private Communication communication;
 
+    @NotNull
     @Enumerated(EnumType.ORDINAL)
     @Column(columnDefinition = "smallint")
     private LearnAbility learnAbility;
 
+    @NotNull
     @Enumerated(EnumType.ORDINAL)
     @Column(columnDefinition = "smallint")
     private Direction direction;
 
     @NotNull
-    @Value("${evaluation: 0}")
-    @Min(value = 1)
-    @Max(value = 5)
     private Integer evaluation;
 
     @Size(max = 250)
