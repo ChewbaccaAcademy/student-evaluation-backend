@@ -66,7 +66,7 @@ public class StudentEvaluationService {
     }
 
     public Evaluation addStudentEvaluation(Long studentId, Long userId, AddUpdateEvaluationDto evaluationDto) {
-        evaluateFormValidator.validate(evaluationDto, "Student evaluation should be between 1 and 5.");
+        evaluateFormValidator.validateEvaluation(evaluationDto);
         Student student = this.studentRepository.findById(studentId).orElseThrow(StudentNotFoundException::new);
         User user = this.userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
 
@@ -82,7 +82,7 @@ public class StudentEvaluationService {
     }
 
     public Evaluation updateStudentEvaluation(Long evaluationId, Long studentId, Long userId, AddUpdateEvaluationDto evaluationDto) {
-        evaluateFormValidator.validate(evaluationDto, "Invalid updated evaluation form.");
+        evaluateFormValidator.validateEvaluation(evaluationDto);
         Student student = this.studentRepository.findById(studentId).orElseThrow(StudentNotFoundException::new);
         User user = this.userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         Evaluation evaluation = this.evaluationRepository.findById(evaluationId).orElseThrow(EvaluationNotFoundException::new);

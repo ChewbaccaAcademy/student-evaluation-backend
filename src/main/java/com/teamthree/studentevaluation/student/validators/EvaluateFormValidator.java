@@ -13,4 +13,10 @@ public class EvaluateFormValidator extends  Validator<AddUpdateEvaluationDto>{
             throw new InvalidStudentEvaluationFormException(message);
         }
     }
+
+    public void validateEvaluation(AddUpdateEvaluationDto attribute) {
+        if (attribute.getEvaluation() < 1 || attribute.getEvaluation() > 5) {
+            throw new InvalidStudentEvaluationFormException("Student evaluation should be between 1 and 5.");
+        }
+    }
 }
