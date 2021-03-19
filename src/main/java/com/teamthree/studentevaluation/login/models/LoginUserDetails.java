@@ -11,14 +11,15 @@ import java.util.List;
 
 public class LoginUserDetails implements UserDetails {
 
-
-    private String username;
-    private String password;
+    private final Long id;
+    private final String username;
+    private final String password;
     private String stream;
-    private String email;
-    private List<GrantedAuthority> role;
+    private final String email;
+    private final List<GrantedAuthority> role;
 
     public LoginUserDetails(User user) {
+        this.id = user.getId();
         this.email = user.getEmail();
         this.password = user.getPassword();
         this.stream = user.getStream();
@@ -30,6 +31,10 @@ public class LoginUserDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return role;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     @Override

@@ -67,11 +67,14 @@ public class StudentEvaluationService {
         );
     }
 
-    /*public Evaluation updateStudentEvaluation(Long studentId, Long userId, EvaluationDto evaluationDto) {
-        evaluateFormValidator.validate(evaluationDto, "Student evaluation should be between 1 and 5."); //papildyti validation
+    public Evaluation updateStudentEvaluation(Long evaluationId, Long studentId, Long userId, EvaluationDto evaluationDto) {
+        evaluateFormValidator.validate(evaluationDto, "Invalid updated evaluation form."); //papildyti validation
         Student student = this.studentRepository.findById(studentId).orElseThrow(StudentNotFoundException::new);
         User user = this.userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
-        Evaluation evaluation = this.evaluationRepository.findById(Integer.toUnsignedLong(4)).orElseThrow(EvaluationNotFoundException::new);
+        Evaluation evaluation = this.evaluationRepository.findById(evaluationId).orElseThrow(EvaluationNotFoundException::new);
+        if (!studentId.equals(evaluation.getStudentId()) || !userId.equals(evaluation.getUserId())) {
+            throw new EvaluationNotFoundException();
+        }
 
         return this.evaluationRepository.save(new Evaluation(evaluation.getId(),
                 student,
@@ -83,6 +86,16 @@ public class StudentEvaluationService {
                 evaluationDto.getEvaluation(),
                 evaluationDto.getComment())
         );
-    }*/
+    }
+
+    public void deleteStudentEvaluation(Long evaluationId, Long studentId, Long userId) {
+        Student student = this.studentRepository.findById(studentId).orElseThrow(StudentNotFoundException::new);
+        User user = this.userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        Evaluation evaluation = this.evaluationRepository.findById(evaluationId).orElseThrow(EvaluationNotFoundException::new);
+        if (!studentId.equals(evaluation.getStudentId()) || !userId.equals(evaluation.getUserId())) {
+            throw new EvaluationNotFoundException();
+        }
+        this.evaluationRepository.delete(evaluation);
+    }
 
 }
