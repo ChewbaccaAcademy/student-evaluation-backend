@@ -1,5 +1,7 @@
 package com.teamthree.studentevaluation.login.models;
 
+import com.teamthree.studentevaluation.user.entity.Role;
+import com.teamthree.studentevaluation.user.entity.Stream;
 import com.teamthree.studentevaluation.user.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -8,25 +10,25 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Function;
 
 public class LoginUserDetails implements UserDetails {
 
     private final Long id;
     private final String username;
     private final String password;
-    private String stream;
+    private final String stream;
     private final String email;
     private final List<GrantedAuthority> role;
 
-    public LoginUserDetails(User user) {
-        this.id = user.getId();
-        this.email = user.getEmail();
-        this.password = user.getPassword();
-        this.stream = user.getStream();
-        this.username = user.getUsername();
-        this.role = Arrays.asList(new SimpleGrantedAuthority(user.getRole().getRoleType()));
+    public LoginUserDetails(Long id, String email, String password, String username, String stream, Role role) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.username = username;
+        this.stream = stream;
+        this.role = Arrays.asList(new SimpleGrantedAuthority(role.getRoleType()));
     }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

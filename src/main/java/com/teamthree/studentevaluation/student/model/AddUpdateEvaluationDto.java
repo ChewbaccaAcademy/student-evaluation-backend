@@ -8,6 +8,7 @@ import com.teamthree.studentevaluation.student.entity.types.Stream;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.sql.Timestamp;
 
 public class AddUpdateEvaluationDto {
 
@@ -29,13 +30,16 @@ public class AddUpdateEvaluationDto {
     @Size(max = 250)
     private final String comment;
 
-    public AddUpdateEvaluationDto(Stream stream, Communication communication, LearnAbility learnAbility, Direction direction, @NotNull Integer evaluation, @Size(max = 250) String comment) {
+    private final Timestamp timestamp;
+
+    public AddUpdateEvaluationDto(Stream stream, Communication communication, LearnAbility learnAbility, Direction direction, @NotNull Integer evaluation, @Size(max = 250) String comment, Timestamp timestamp) {
         this.stream = stream;
         this.communication = communication;
         this.learnAbility = learnAbility;
         this.direction = direction;
         this.evaluation = evaluation;
         this.comment = comment;
+        this.timestamp = timestamp;
     }
 
     public Stream getStream() {
@@ -60,5 +64,9 @@ public class AddUpdateEvaluationDto {
 
     public String getComment() {
         return comment;
+    }
+
+    public Timestamp getTimestamp() {
+        return timestamp;
     }
 }

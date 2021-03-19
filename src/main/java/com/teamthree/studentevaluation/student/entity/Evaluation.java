@@ -1,17 +1,12 @@
 package com.teamthree.studentevaluation.student.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.teamthree.studentevaluation.student.entity.types.*;
 import com.teamthree.studentevaluation.user.entity.User;
-import org.hibernate.validator.constraints.Range;
-import org.springframework.beans.factory.annotation.Value;
-
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "evaluation")
@@ -54,7 +49,45 @@ public class Evaluation {
     @Size(max = 250)
     private String comment;
 
+    @Column(name = "timestamp", nullable = false, insertable = false, columnDefinition = "timestamp default current_timestamp")
+    private Timestamp timestamp;
+
+    @PrePersist
+    protected void onEvaluation() {
+        this.timestamp = new Timestamp(System.currentTimeMillis());
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.timestamp = new Timestamp(System.currentTimeMillis());
+    }
+
     public Evaluation() {
+    }
+
+    public Evaluation(Student student, User user, Stream stream, Communication communication, LearnAbility learnAbility, Direction direction, Integer evaluation, String comment, Timestamp timestamp) {
+        this.student = student;
+        this.user = user;
+        this.stream = stream;
+        this.communication = communication;
+        this.learnAbility = learnAbility;
+        this.direction = direction;
+        this.evaluation = evaluation;
+        this.comment = comment;
+        this.timestamp = timestamp;
+    }
+
+    public Evaluation(Long id, Student student, User user, Stream stream, Communication communication, LearnAbility learnAbility, Direction direction, Integer evaluation, String comment, Timestamp timestamp) {
+        this.id = id;
+        this.student = student;
+        this.user = user;
+        this.stream = stream;
+        this.communication = communication;
+        this.learnAbility = learnAbility;
+        this.direction = direction;
+        this.evaluation = evaluation;
+        this.comment = comment;
+        this.timestamp = timestamp;
     }
 
     public Evaluation(Student student, User user, Stream stream, Communication communication, LearnAbility learnAbility, Direction direction, Integer evaluation, String comment) {
@@ -114,5 +147,9 @@ public class Evaluation {
 
     public String getComment() {
         return comment;
+    }
+
+    public Timestamp getTimestamp() {
+        return timestamp;
     }
 }

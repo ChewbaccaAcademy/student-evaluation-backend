@@ -1,5 +1,8 @@
 package com.teamthree.studentevaluation.student.model;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 public class GetEvaluationDto {
 
     private final Long id;
@@ -20,7 +23,9 @@ public class GetEvaluationDto {
 
     private final String comment;
 
-    public GetEvaluationDto(Long id, Long studentId, Long userId, String stream, String communication, String learnAbility, String direction, Integer evaluation, String comment) {
+    private final Timestamp timestamp;
+
+    public GetEvaluationDto(Long id, Long studentId, Long userId, String stream, String communication, String learnAbility, String direction, Integer evaluation, String comment, Timestamp timestamp) {
         this.id = id;
         this.studentId = studentId;
         this.userId = userId;
@@ -30,6 +35,7 @@ public class GetEvaluationDto {
         this.direction = direction;
         this.evaluation = evaluation;
         this.comment = comment;
+        this.timestamp = timestamp;
     }
 
     public Long getId() {
@@ -66,5 +72,9 @@ public class GetEvaluationDto {
 
     public String getComment() {
         return comment;
+    }
+
+    public Timestamp getTimestamp() {
+        return timestamp;
     }
 }
