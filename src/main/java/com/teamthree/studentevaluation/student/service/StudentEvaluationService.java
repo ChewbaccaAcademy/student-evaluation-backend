@@ -1,20 +1,20 @@
 package com.teamthree.studentevaluation.student.service;
 
 import com.teamthree.studentevaluation.student.entity.Evaluation;
-import com.teamthree.studentevaluation.student.entity.Image;
 import com.teamthree.studentevaluation.student.entity.Student;
+import com.teamthree.studentevaluation.student.exceptions.EvaluationNotFoundException;
 import com.teamthree.studentevaluation.student.exceptions.StudentNotFoundException;
-import com.teamthree.studentevaluation.student.model.AddEvaluationDto;
+import com.teamthree.studentevaluation.student.model.EvaluationDto;
 import com.teamthree.studentevaluation.student.model.GetEvaluationDto;
 import com.teamthree.studentevaluation.student.repository.EvaluationRepository;
 import com.teamthree.studentevaluation.student.repository.StudentRepository;
+import com.teamthree.studentevaluation.student.validators.EvaluateFormValidator;
 import com.teamthree.studentevaluation.user.entity.User;
 import com.teamthree.studentevaluation.user.exceptions.UserNotFoundException;
 import com.teamthree.studentevaluation.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,12 +22,14 @@ public class StudentEvaluationService {
     private final EvaluationRepository evaluationRepository;
     private final StudentRepository studentRepository;
     private final UserRepository userRepository;
+    private final EvaluateFormValidator evaluateFormValidator;
 
     @Autowired
-    public StudentEvaluationService(StudentRepository studentRepository, EvaluationRepository evaluationRepository, UserRepository userRepository) {
+    public StudentEvaluationService(StudentRepository studentRepository, EvaluationRepository evaluationRepository, UserRepository userRepository, EvaluateFormValidator evaluateFormValidator) {
         this.studentRepository = studentRepository;
         this.evaluationRepository = evaluationRepository;
         this.userRepository = userRepository;
+        this.evaluateFormValidator = evaluateFormValidator;
     }
 
     public List<Evaluation> getStudentEvaluations() {
@@ -49,7 +51,8 @@ public class StudentEvaluationService {
                 evaluation.getComment())).collect(Collectors.toList());
     }
 
-    public Evaluation addStudentEvaluation(Long studentId, Long userId, AddEvaluationDto evaluationDto) {
+    public Evaluation addStudentEvaluation(Long studentId, Long userId, EvaluationDto evaluationDto) {
+        evaluateFormValidator.validate(evaluationDto, "Student evaluation should be between 1 and 5.");
         Student student = this.studentRepository.findById(studentId).orElseThrow(StudentNotFoundException::new);
         User user = this.userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
 
@@ -63,5 +66,23 @@ public class StudentEvaluationService {
                 evaluationDto.getComment())
         );
     }
+
+    /*public Evaluation updateStudentEvaluation(Long studentId, Long userId, EvaluationDto evaluationDto) {
+        evaluateFormValidator.validate(evaluationDto, "Student evaluation should be between 1 and 5."); //papildyti validation
+        Student student = this.studentRepository.findById(studentId).orElseThrow(StudentNotFoundException::new);
+        User user = this.userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        Evaluation evaluation = this.evaluationRepository.findById(Integer.toUnsignedLong(4)).orElseThrow(EvaluationNotFoundException::new);
+
+        return this.evaluationRepository.save(new Evaluation(evaluation.getId(),
+                student,
+                user,
+                evaluationDto.getStream(),
+                evaluationDto.getCommunication(),
+                evaluationDto.getLearnAbility(),
+                evaluationDto.getDirection(),
+                evaluationDto.getEvaluation(),
+                evaluationDto.getComment())
+        );
+    }*/
 
 }

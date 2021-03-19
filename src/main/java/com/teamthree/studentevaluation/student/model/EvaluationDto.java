@@ -4,16 +4,12 @@ import com.teamthree.studentevaluation.student.entity.types.Communication;
 import com.teamthree.studentevaluation.student.entity.types.Direction;
 import com.teamthree.studentevaluation.student.entity.types.LearnAbility;
 import com.teamthree.studentevaluation.student.entity.types.Stream;
-import org.hibernate.validator.constraints.Range;
-import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class AddEvaluationDto {
+public class EvaluationDto {
 
     @Enumerated(EnumType.STRING)
     private final Stream stream;
@@ -33,7 +29,7 @@ public class AddEvaluationDto {
     @Size(max = 250)
     private final String comment;
 
-    public AddEvaluationDto(Stream stream, Communication communication, LearnAbility learnAbility, Direction direction, @NotNull Integer evaluation, @Size(max = 250) String comment) {
+    public EvaluationDto(Stream stream, Communication communication, LearnAbility learnAbility, Direction direction, @NotNull Integer evaluation, @Size(max = 250) String comment) {
         this.stream = stream;
         this.communication = communication;
         this.learnAbility = learnAbility;

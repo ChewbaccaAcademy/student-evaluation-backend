@@ -46,8 +46,8 @@ public class Evaluation {
 
     @NotNull
     @Value("${evaluation: 0}")
-    @Min(value = 1, message = "Student evaluation should be between 1 and 5.")
-    @Max(value = 5, message = "Student evaluation should be between 1 and 5.")
+    @Min(value = 1)
+    @Max(value = 5)
     private Integer evaluation;
 
     @Size(max = 250)
@@ -57,6 +57,18 @@ public class Evaluation {
     }
 
     public Evaluation(Student student, User user, Stream stream, Communication communication, LearnAbility learnAbility, Direction direction, Integer evaluation, String comment) {
+        this.student = student;
+        this.user = user;
+        this.stream = stream;
+        this.communication = communication;
+        this.learnAbility = learnAbility;
+        this.direction = direction;
+        this.evaluation = evaluation;
+        this.comment = comment;
+    }
+
+    public Evaluation(Long id, Student student, User user, Stream stream, Communication communication, LearnAbility learnAbility, Direction direction, Integer evaluation, String comment) {
+        this.id = id;
         this.student = student;
         this.user = user;
         this.stream = stream;
