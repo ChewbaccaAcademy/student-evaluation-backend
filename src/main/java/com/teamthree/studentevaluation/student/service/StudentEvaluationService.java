@@ -4,7 +4,7 @@ import com.teamthree.studentevaluation.student.entity.Evaluation;
 import com.teamthree.studentevaluation.student.entity.Student;
 import com.teamthree.studentevaluation.student.exceptions.EvaluationNotFoundException;
 import com.teamthree.studentevaluation.student.exceptions.StudentNotFoundException;
-import com.teamthree.studentevaluation.student.model.EvaluationDto;
+import com.teamthree.studentevaluation.student.model.AddUpdateEvaluationDto;
 import com.teamthree.studentevaluation.student.model.GetEvaluationDto;
 import com.teamthree.studentevaluation.student.repository.EvaluationRepository;
 import com.teamthree.studentevaluation.student.repository.StudentRepository;
@@ -36,8 +36,22 @@ public class StudentEvaluationService {
         return this.evaluationRepository.findAll();
     }
 
-    public List<GetEvaluationDto> getStudentEvaluationsById(Long id) {
-        Student foundStudent = this.studentRepository.findById(id).orElseThrow(StudentNotFoundException::new);
+    public List<GetEvaluationDto> getUserStudentEvaluations(Long userId) {
+        User user = this.userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        return this.evaluationRepository.findByUser(user).orElseThrow(UserNotFoundException::new).stream().map(evaluation -> new GetEvaluationDto(
+                evaluation.getId(),
+                evaluation.getStudentId(),
+                evaluation.getUserId(),
+                evaluation.getStream().toString(),
+                evaluation.getCommunication().toString(),
+                evaluation.getDirection().toString(),
+                evaluation.getLearnAbility().toString(),
+                evaluation.getEvaluation(),
+                evaluation.getComment())).collect(Collectors.toList());
+    }
+
+    public List<GetEvaluationDto> getStudentEvaluationsById(Long studentId) {
+        Student foundStudent = this.studentRepository.findById(studentId).orElseThrow(StudentNotFoundException::new);
         List<Evaluation> evaluations = this.evaluationRepository.findByStudent(foundStudent).orElseThrow(StudentNotFoundException::new);
         return evaluations.stream().map(evaluation -> new GetEvaluationDto(
                 evaluation.getId(),
@@ -51,7 +65,7 @@ public class StudentEvaluationService {
                 evaluation.getComment())).collect(Collectors.toList());
     }
 
-    public Evaluation addStudentEvaluation(Long studentId, Long userId, EvaluationDto evaluationDto) {
+    public Evaluation addStudentEvaluation(Long studentId, Long userId, AddUpdateEvaluationDto evaluationDto) {
         evaluateFormValidator.validate(evaluationDto, "Student evaluation should be between 1 and 5.");
         Student student = this.studentRepository.findById(studentId).orElseThrow(StudentNotFoundException::new);
         User user = this.userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
@@ -67,8 +81,8 @@ public class StudentEvaluationService {
         );
     }
 
-    public Evaluation updateStudentEvaluation(Long evaluationId, Long studentId, Long userId, EvaluationDto evaluationDto) {
-        evaluateFormValidator.validate(evaluationDto, "Invalid updated evaluation form."); //papildyti validation
+    public Evaluation updateStudentEvaluation(Long evaluationId, Long studentId, Long userId, AddUpdateEvaluationDto evaluationDto) {
+        evaluateFormValidator.validate(evaluationDto, "Invalid updated evaluation form.");
         Student student = this.studentRepository.findById(studentId).orElseThrow(StudentNotFoundException::new);
         User user = this.userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         Evaluation evaluation = this.evaluationRepository.findById(evaluationId).orElseThrow(EvaluationNotFoundException::new);
@@ -89,8 +103,8 @@ public class StudentEvaluationService {
     }
 
     public void deleteStudentEvaluation(Long evaluationId, Long studentId, Long userId) {
-        Student student = this.studentRepository.findById(studentId).orElseThrow(StudentNotFoundException::new);
-        User user = this.userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        this.studentRepository.findById(studentId).orElseThrow(StudentNotFoundException::new);
+        this.userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         Evaluation evaluation = this.evaluationRepository.findById(evaluationId).orElseThrow(EvaluationNotFoundException::new);
         if (!studentId.equals(evaluation.getStudentId()) || !userId.equals(evaluation.getUserId())) {
             throw new EvaluationNotFoundException();

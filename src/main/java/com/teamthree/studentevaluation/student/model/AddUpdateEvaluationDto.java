@@ -9,7 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class EvaluationDto {
+public class AddUpdateEvaluationDto {
 
     @Enumerated(EnumType.STRING)
     private final Stream stream;
@@ -29,7 +29,7 @@ public class EvaluationDto {
     @Size(max = 250)
     private final String comment;
 
-    public EvaluationDto(Stream stream, Communication communication, LearnAbility learnAbility, Direction direction, @NotNull Integer evaluation, @Size(max = 250) String comment) {
+    public AddUpdateEvaluationDto(Stream stream, Communication communication, LearnAbility learnAbility, Direction direction, @NotNull Integer evaluation, @Size(max = 250) String comment) {
         this.stream = stream;
         this.communication = communication;
         this.learnAbility = learnAbility;

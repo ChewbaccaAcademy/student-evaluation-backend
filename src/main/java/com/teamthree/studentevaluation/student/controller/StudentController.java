@@ -28,20 +28,20 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @PreAuthorize("permitAll")
+    @PreAuthorize("isAuthenticated()")
     @GetMapping(produces = "application/json")
     public List<Student> getAllStudents() {
         return this.studentService.getAllStudent();
     }
 
-    @PreAuthorize("permitAll")
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("{id}")
     public Student getStudentById(@PathVariable Long id) {
         return this.studentService.getStudentById(id);
     }
 
     @CrossOrigin
-    @PreAuthorize("permitAll")
+    @PreAuthorize("isAuthenticated()")
     @PostMapping
     public Student addStudent(@RequestPart("student") @Valid AddStudentDto studentDto, BindingResult bindingResult, @RequestPart("image") @Nullable MultipartFile imageFile) {
         if (!bindingResult.hasErrors()) {
@@ -50,7 +50,7 @@ public class StudentController {
         throw new InvalidStudentFormException("Invalid student form.");
     }
 
-    @PreAuthorize("permitAll")
+    @PreAuthorize("isAuthenticated()")
     @PutMapping("{id}")
     public Student updateStudent(@PathVariable Long id, @RequestPart("student") @Valid UpdateStudentDto studentDto, BindingResult bindingResult, @RequestPart("image") @Nullable MultipartFile imageFile) {
         if (!bindingResult.hasErrors()) {

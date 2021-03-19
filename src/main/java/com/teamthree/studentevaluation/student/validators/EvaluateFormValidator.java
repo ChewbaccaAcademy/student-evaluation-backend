@@ -1,14 +1,14 @@
 package com.teamthree.studentevaluation.student.validators;
 
 import com.teamthree.studentevaluation.student.exceptions.InvalidStudentEvaluationFormException;
-import com.teamthree.studentevaluation.student.model.EvaluationDto;
+import com.teamthree.studentevaluation.student.model.AddUpdateEvaluationDto;
 import org.springframework.stereotype.Component;
 
 @Component
-public class EvaluateFormValidator extends  Validator<EvaluationDto>{
+public class EvaluateFormValidator extends  Validator<AddUpdateEvaluationDto>{
 
     @Override
-    public void validate(EvaluationDto attribute, String message) {
+    public void validate(AddUpdateEvaluationDto attribute, String message) {
         if (attribute.getEvaluation() < 1 || attribute.getEvaluation() > 5) {
             throw new InvalidStudentEvaluationFormException(message);
         }
