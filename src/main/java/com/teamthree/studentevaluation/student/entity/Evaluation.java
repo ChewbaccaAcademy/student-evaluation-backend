@@ -1,20 +1,28 @@
 package com.teamthree.studentevaluation.student.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.teamthree.studentevaluation.student.entity.types.*;
 import com.teamthree.studentevaluation.user.entity.User;
+import org.springframework.beans.factory.annotation.Value;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "evaluation")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Evaluation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Value("${is.active:true}")
+    @Column(name = "active", columnDefinition="boolean default true")
+    @JsonProperty(value = "isActive")
+    private Boolean isActive;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "student_id")
@@ -67,6 +75,7 @@ public class Evaluation {
 
     public static class EvaluationBuilder {
         private Long id;
+        private Boolean isActive;
         private final Student student;
         private final User user;
         private Stream stream;
@@ -88,6 +97,11 @@ public class Evaluation {
 
         public EvaluationBuilder setId(Long id) {
             this.id = id;
+            return this;
+        }
+
+        public EvaluationBuilder setIsActive(boolean isActive) {
+            this.isActive = isActive;
             return this;
         }
 
@@ -128,6 +142,7 @@ public class Evaluation {
 
     private Evaluation(EvaluationBuilder builder) {
         this.id = builder.id;
+        this.isActive = builder.isActive;
         this.student = builder.student;
         this.user = builder.user;
         this.stream = builder.stream;
@@ -140,6 +155,11 @@ public class Evaluation {
 
     public Long getId() {
         return id;
+    }
+
+    @JsonProperty("isActive")
+    public Boolean isActive() {
+        return isActive;
     }
 
     public Long getStudentId() {

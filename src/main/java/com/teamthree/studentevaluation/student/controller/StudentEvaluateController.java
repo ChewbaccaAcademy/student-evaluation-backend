@@ -54,11 +54,5 @@ public class StudentEvaluateController {
     public Evaluation updateEvaluation(@RequestBody @Valid AddUpdateEvaluationDto evaluationDto, BindingResult bindingResult, @PathVariable Long studentId, @PathVariable Long evaluationId) {
         return this.studentEvaluationService.updateStudentEvaluation(bindingResult, evaluationId, studentId, evaluationDto);
     }
-
-    @PreAuthorize("isAuthenticated()")
-    @DeleteMapping("/{studentId}/{evaluationId}")
-    public void deleteStudentEvaluation(@PathVariable Long studentId, @PathVariable Long evaluationId) {
-        this.studentEvaluationService.deleteStudentEvaluation(evaluationId, studentId);
-    }
-
+    
 }

@@ -1,11 +1,12 @@
 package com.teamthree.studentevaluation.student.model;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 public class GetEvaluationDto {
 
     private final Long id;
+
+    private final Boolean isActive;
 
     private final Long studentId;
 
@@ -25,8 +26,9 @@ public class GetEvaluationDto {
 
     private final Timestamp timestamp;
 
-    public GetEvaluationDto(Long id, Long studentId, Long userId, String stream, String communication, String learnAbility, String direction, Integer evaluation, String comment, Timestamp timestamp) {
+    public GetEvaluationDto(Long id, Boolean isActive, Long studentId, Long userId, String stream, String communication, String learnAbility, String direction, Integer evaluation, String comment, Timestamp timestamp) {
         this.id = id;
+        this.isActive = isActive;
         this.studentId = studentId;
         this.userId = userId;
         this.stream = stream;
@@ -40,6 +42,10 @@ public class GetEvaluationDto {
 
     public Long getId() {
         return id;
+    }
+
+    public Boolean isActive() {
+        return isActive;
     }
 
     public Long getStudentId() {

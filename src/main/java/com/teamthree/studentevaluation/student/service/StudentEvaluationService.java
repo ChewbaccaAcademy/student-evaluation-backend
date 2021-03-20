@@ -18,12 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
-
-import java.sql.Timestamp;
-import java.time.ZonedDateTime;
-import java.util.Calendar;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,6 +44,7 @@ public class StudentEvaluationService {
         User user = this.userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         return this.evaluationRepository.findByUser(user).orElseThrow(UserNotFoundException::new).stream().map(evaluation -> new GetEvaluationDto(
                 evaluation.getId(),
+                evaluation.isActive(),
                 evaluation.getStudentId(),
                 evaluation.getUserId(),
                 evaluation.getStream().toString(),
@@ -65,6 +61,7 @@ public class StudentEvaluationService {
         List<Evaluation> evaluations = this.evaluationRepository.findByStudent(foundStudent).orElseThrow(StudentNotFoundException::new);
         return evaluations.stream().map(evaluation -> new GetEvaluationDto(
                 evaluation.getId(),
+                evaluation.isActive(),
                 evaluation.getStudentId(),
                 evaluation.getUserId(),
                 evaluation.getStream().toString(),
@@ -88,6 +85,7 @@ public class StudentEvaluationService {
                     evaluationDto.getLearnAbility(),
                     evaluationDto.getDirection(),
                     evaluationDto.getEvaluation())
+                    .setIsActive(true)
                     .setComment(evaluationDto.getComment()).build());
         } else {
             throw new InvalidStudentFormException("Invalid evaluation form values.");
@@ -111,21 +109,10 @@ public class StudentEvaluationService {
                     evaluationDto.getDirection(),
                     evaluationDto.getEvaluation())
                     .setId(evaluationId)
+                    .setIsActive((evaluationDto.getIsActive() != null) ? evaluationDto.getIsActive() : evaluation.isActive())
                     .setComment(evaluationDto.getComment()).build());
         } else {
             throw new InvalidStudentFormException("Invalid evaluation form values.");
         }
     }
-
-    public void deleteStudentEvaluation(Long evaluationId, Long studentId) {
-        Long userId = ((LoginUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
-        this.studentRepository.findById(studentId).orElseThrow(StudentNotFoundException::new);
-        this.userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
-        Evaluation evaluation = this.evaluationRepository.findById(evaluationId).orElseThrow(EvaluationNotFoundException::new);
-        if (!studentId.equals(evaluation.getStudentId()) || !userId.equals(evaluation.getUserId())) {
-            throw new EvaluationNotFoundException();
-        }
-        this.evaluationRepository.delete(evaluation);
-    }
-
 }
