@@ -82,16 +82,13 @@ public class StudentEvaluationService {
             evaluateFormValidator.validateEvaluation(evaluationDto);
             Student student = this.studentRepository.findById(studentId).orElseThrow(StudentNotFoundException::new);
             User user = this.userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
-
-            return this.evaluationRepository.save(new Evaluation(student,
-                    user,
+            return this.evaluationRepository.save(new Evaluation.EvaluationBuilder(student, user,
                     evaluationDto.getStream(),
                     evaluationDto.getCommunication(),
                     evaluationDto.getLearnAbility(),
                     evaluationDto.getDirection(),
-                    evaluationDto.getEvaluation(),
-                    evaluationDto.getComment())
-            );
+                    evaluationDto.getEvaluation())
+                    .setComment(evaluationDto.getComment()).build());
         } else {
             throw new InvalidStudentFormException("Invalid evaluation form values.");
         }
@@ -100,7 +97,6 @@ public class StudentEvaluationService {
     public Evaluation updateStudentEvaluation(BindingResult bindingResult, Long evaluationId, Long studentId, AddUpdateEvaluationDto evaluationDto) {
         Long userId = ((LoginUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
         if (!bindingResult.hasErrors()) {
-
             evaluateFormValidator.validateEvaluation(evaluationDto);
             Student student = this.studentRepository.findById(studentId).orElseThrow(StudentNotFoundException::new);
             User user = this.userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
@@ -108,16 +104,14 @@ public class StudentEvaluationService {
             if (!studentId.equals(evaluation.getStudentId()) || !userId.equals(evaluation.getUserId())) {
                 throw new EvaluationNotFoundException();
             }
-            return this.evaluationRepository.save(new Evaluation(evaluation.getId(),
-                    student,
-                    user,
+            return this.evaluationRepository.save(new Evaluation.EvaluationBuilder(student, user,
                     evaluationDto.getStream(),
                     evaluationDto.getCommunication(),
                     evaluationDto.getLearnAbility(),
                     evaluationDto.getDirection(),
-                    evaluationDto.getEvaluation(),
-                    evaluationDto.getComment())
-            );
+                    evaluationDto.getEvaluation())
+                    .setId(evaluationId)
+                    .setComment(evaluationDto.getComment()).build());
         } else {
             throw new InvalidStudentFormException("Invalid evaluation form values.");
         }
