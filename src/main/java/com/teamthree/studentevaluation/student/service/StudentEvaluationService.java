@@ -47,10 +47,10 @@ public class StudentEvaluationService {
                 evaluation.isActive(),
                 evaluation.getStudentId(),
                 evaluation.getUserId(),
-                evaluation.getStream().toString(),
-                evaluation.getCommunication().toString(),
-                evaluation.getDirection().toString(),
-                evaluation.getLearnAbility().toString(),
+                (evaluation.getStream() != null) ? evaluation.getStream().toString() : null,
+                (evaluation.getCommunication() != null) ? evaluation.getCommunication().toString() : null,
+                (evaluation.getDirection() != null) ? evaluation.getDirection().toString() : null,
+                (evaluation.getLearnAbility() != null) ? evaluation.getLearnAbility().toString() : null,
                 evaluation.getEvaluation(),
                 evaluation.getComment(),
                 evaluation.getTimestamp())).collect(Collectors.toList());
@@ -64,10 +64,10 @@ public class StudentEvaluationService {
                 evaluation.isActive(),
                 evaluation.getStudentId(),
                 evaluation.getUserId(),
-                evaluation.getStream().toString(),
-                evaluation.getCommunication().toString(),
-                evaluation.getDirection().toString(),
-                evaluation.getLearnAbility().toString(),
+                (evaluation.getStream() != null) ? evaluation.getStream().toString() : null,
+                (evaluation.getCommunication() != null) ? evaluation.getCommunication().toString() : null,
+                (evaluation.getDirection() != null) ? evaluation.getDirection().toString() : null,
+                (evaluation.getLearnAbility() != null) ? evaluation.getLearnAbility().toString() : null,
                 evaluation.getEvaluation(),
                 evaluation.getComment(),
                 evaluation.getTimestamp())).collect(Collectors.toList());
@@ -79,14 +79,14 @@ public class StudentEvaluationService {
             evaluateFormValidator.validateEvaluation(evaluationDto);
             Student student = this.studentRepository.findById(studentId).orElseThrow(StudentNotFoundException::new);
             User user = this.userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
-            return this.evaluationRepository.save(new Evaluation.EvaluationBuilder(student, user,
-                    evaluationDto.getStream(),
-                    evaluationDto.getCommunication(),
-                    evaluationDto.getLearnAbility(),
-                    evaluationDto.getDirection(),
-                    evaluationDto.getEvaluation())
-                    .setIsActive(true)
-                    .setComment(evaluationDto.getComment()).build());
+            return this.evaluationRepository.save(new Evaluation.EvaluationBuilder(student, user)
+                    .setStream(evaluationDto.getStream())
+                    .setCommunication(evaluationDto.getCommunication())
+                    .setLearnAbility(evaluationDto.getLearnAbility())
+                    .setDirection(evaluationDto.getDirection())
+                    .setEvaluation(evaluationDto.getEvaluation())
+                    .setComment(evaluationDto.getComment())
+                    .setIsActive(true).build());
         } else {
             throw new InvalidStudentFormException("Invalid evaluation form values.");
         }
@@ -102,15 +102,15 @@ public class StudentEvaluationService {
             if (!studentId.equals(evaluation.getStudentId()) || !userId.equals(evaluation.getUserId())) {
                 throw new EvaluationNotFoundException();
             }
-            return this.evaluationRepository.save(new Evaluation.EvaluationBuilder(student, user,
-                    evaluationDto.getStream(),
-                    evaluationDto.getCommunication(),
-                    evaluationDto.getLearnAbility(),
-                    evaluationDto.getDirection(),
-                    evaluationDto.getEvaluation())
+            return this.evaluationRepository.save(new Evaluation.EvaluationBuilder(student, user)
+                    .setStream(evaluationDto.getStream())
+                    .setCommunication(evaluationDto.getCommunication())
+                    .setLearnAbility(evaluationDto.getLearnAbility())
+                    .setDirection(evaluationDto.getDirection())
+                    .setEvaluation(evaluationDto.getEvaluation())
+                    .setComment(evaluationDto.getComment())
                     .setId(evaluationId)
-                    .setIsActive((evaluationDto.getIsActive() != null) ? evaluationDto.getIsActive() : evaluation.isActive())
-                    .setComment(evaluationDto.getComment()).build());
+                    .setIsActive((evaluationDto.getIsActive() != null) ? evaluationDto.getIsActive() : evaluation.isActive()).build());
         } else {
             throw new InvalidStudentFormException("Invalid evaluation form values.");
         }

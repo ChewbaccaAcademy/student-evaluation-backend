@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.teamthree.studentevaluation.student.entity.types.*;
 import com.teamthree.studentevaluation.user.entity.User;
 import org.springframework.beans.factory.annotation.Value;
-
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.sql.Timestamp;
@@ -32,26 +31,21 @@ public class Evaluation {
     @JoinColumn(name = "actor_id", nullable = false)
     private User user;
 
-    @NotNull
     @Enumerated(EnumType.ORDINAL)
     private Stream stream;
 
-    @NotNull
     @Enumerated(EnumType.ORDINAL)
     @Column(columnDefinition = "smallint")
     private Communication communication;
 
-    @NotNull
     @Enumerated(EnumType.ORDINAL)
     @Column(columnDefinition = "smallint")
     private LearnAbility learnAbility;
 
-    @NotNull
     @Enumerated(EnumType.ORDINAL)
     @Column(columnDefinition = "smallint")
     private Direction direction;
 
-    @NotNull
     private Integer evaluation;
 
     @Size(max = 250)
@@ -85,14 +79,9 @@ public class Evaluation {
         private Integer evaluation;
         private String comment;
 
-        public EvaluationBuilder(Student student, User user, Stream stream, Communication communication, LearnAbility learnAbility, Direction direction, Integer evaluation) {
+        public EvaluationBuilder(Student student, User user) {
             this.student = student;
             this.user = user;
-            this.stream = stream;
-            this.communication = communication;
-            this.learnAbility = learnAbility;
-            this.direction = direction;
-            this.evaluation = evaluation;
         }
 
         public EvaluationBuilder setId(Long id) {

@@ -1,7 +1,9 @@
 package com.teamthree.studentevaluation.student.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import java.sql.Timestamp;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class GetEvaluationDto {
 
     private final Long id;
