@@ -33,7 +33,7 @@ public class LoginController {
     }
 
     @PreAuthorize("permitAll")
-    @CrossOrigin(origins = "https://team-three-frontend.herokuapp.com/")
+    @CrossOrigin(origins = {"https://team-three-frontend.herokuapp.com", "http://localhost:4200"})
     @RequestMapping(path = "/authenticate", method = RequestMethod.POST)
     public String createAuthenticationToken(@RequestBody AuthenticationRequest
                                                     authenticationRequest) throws Exception {
