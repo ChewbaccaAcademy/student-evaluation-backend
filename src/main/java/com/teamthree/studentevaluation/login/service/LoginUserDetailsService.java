@@ -27,7 +27,11 @@ public class LoginUserDetailsService implements UserDetailsService {
     public LoginUserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findUserByEmail(email);
         user.orElseThrow(() -> new UsernameNotFoundException("Not found:" + email));
-        return user.map(LoginUserDetails::new).get();
-
+        return new LoginUserDetails(user.get().getId(),
+                user.get().getEmail(),
+                user.get().getPassword(),
+                user.get().getUsername(),
+                user.get().getStream(),
+                user.get().getRole());
     }
 }

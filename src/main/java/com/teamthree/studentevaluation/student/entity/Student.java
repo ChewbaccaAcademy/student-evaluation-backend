@@ -7,6 +7,7 @@ import org.springframework.lang.Nullable;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Table(name = "student")
@@ -17,7 +18,7 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name="active")
+    @Column(name = "active")
     @JsonProperty(value = "isActive")
     private Boolean isActive;
 
@@ -38,6 +39,9 @@ public class Student {
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "image_id", referencedColumnName = "id")
     private Image image;
+
+    @OneToMany(mappedBy = "evaluation")
+    private List<Evaluation> evaluation;
 
     public Student() {
     }
