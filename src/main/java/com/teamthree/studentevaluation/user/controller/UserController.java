@@ -20,7 +20,7 @@ public class UserController {
     }
 
     @PostMapping
-    @CrossOrigin(origins = "https://team-three-frontend.herokuapp.com/")
+    @CrossOrigin(origins = {"https://team-three-frontend.herokuapp.com", "http://localhost:4200"})
     @RequestMapping("/signup")
     public void registerNewUser(@Valid @RequestBody UserDto userDto, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {

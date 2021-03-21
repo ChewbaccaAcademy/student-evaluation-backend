@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/student/evaluation")
-@CrossOrigin(origins = "https://team-three-frontend.herokuapp.com/")
+@CrossOrigin(origins = {"https://team-three-frontend.herokuapp.com", "http://localhost:4200"})
 @Validated
 public class StudentEvaluateController {
 

@@ -18,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/student")
-@CrossOrigin(origins = "https://team-three-frontend.herokuapp.com/")
+@CrossOrigin(origins = {"https://team-three-frontend.herokuapp.com", "http://localhost:4200"})
 public class StudentController {
 
     final private StudentService studentService;
@@ -40,7 +40,6 @@ public class StudentController {
         return this.studentService.getStudentById(id);
     }
 
-    @CrossOrigin
     @PreAuthorize("isAuthenticated()")
     @PostMapping
     public Student addStudent(@RequestPart("student") @Valid AddStudentDto studentDto, BindingResult bindingResult, @RequestPart("image") @Nullable MultipartFile imageFile) {
