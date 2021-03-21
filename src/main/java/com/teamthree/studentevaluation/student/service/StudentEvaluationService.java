@@ -96,12 +96,13 @@ public class StudentEvaluationService {
         Long userId = ((LoginUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
         if (!bindingResult.hasErrors()) {
             evaluateFormValidator.validateEvaluation(evaluationDto);
-            Student student = this.studentRepository.findById(studentId).orElseThrow(StudentNotFoundException::new);
-            User user = this.userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
             Evaluation evaluation = this.evaluationRepository.findById(evaluationId).orElseThrow(EvaluationNotFoundException::new);
             if (!studentId.equals(evaluation.getStudentId()) || !userId.equals(evaluation.getUserId())) {
                 throw new EvaluationNotFoundException();
             }
+            Student student = this.studentRepository.findById(studentId).orElseThrow(StudentNotFoundException::new);
+            User user = this.userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+
             return this.evaluationRepository.save(new Evaluation.EvaluationBuilder(student, user)
                     .setStream(evaluationDto.getStream())
                     .setCommunication(evaluationDto.getCommunication())
