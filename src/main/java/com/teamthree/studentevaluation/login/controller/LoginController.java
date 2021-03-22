@@ -2,6 +2,7 @@ package com.teamthree.studentevaluation.login.controller;
 
 
 import com.teamthree.studentevaluation.login.models.AuthenticationRequest;
+import com.teamthree.studentevaluation.login.models.AuthenticationResponse;
 import com.teamthree.studentevaluation.login.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -35,8 +36,8 @@ public class LoginController {
     @PreAuthorize("permitAll")
     @CrossOrigin(origins = {"https://team-three-frontend.herokuapp.com", "http://localhost:4200"})
     @RequestMapping(path = "/authenticate", method = RequestMethod.POST)
-    public String createAuthenticationToken(@RequestBody AuthenticationRequest
-                                                    authenticationRequest) throws Exception {
+    public AuthenticationResponse createAuthenticationToken(@RequestBody AuthenticationRequest
+                                                                    authenticationRequest) throws Exception {
         return loginService.authenticate(authenticationRequest);
 
     }

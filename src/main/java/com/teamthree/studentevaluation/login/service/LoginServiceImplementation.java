@@ -2,13 +2,13 @@ package com.teamthree.studentevaluation.login.service;
 
 import com.teamthree.studentevaluation.login.exceptions.IncorrectUserOrEmailException;
 import com.teamthree.studentevaluation.login.models.AuthenticationRequest;
+import com.teamthree.studentevaluation.login.models.AuthenticationResponse;
 import com.teamthree.studentevaluation.login.models.LoginUserDetails;
 import com.teamthree.studentevaluation.login.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,8 +27,8 @@ public class LoginServiceImplementation implements LoginService {
     }
 
     @Override
-    public String authenticate(AuthenticationRequest
-                                       authenticationRequest) throws Exception {
+    public AuthenticationResponse authenticate(AuthenticationRequest
+                                                       authenticationRequest) throws Exception {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest
                     .getEmail(), authenticationRequest.getPassword()));
@@ -39,6 +39,8 @@ public class LoginServiceImplementation implements LoginService {
 
         final String jwt = jwtTokenUtil.generateToken(userDetails);
 
-        return jwt;
+        final AuthenticationResponse response = new AuthenticationResponse(jwt, userDetails.getAuthorities(), jwtTokenUtil.extractExpiration(jwt).getTime());
+
+        return response;
     }
 }
