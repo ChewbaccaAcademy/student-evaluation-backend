@@ -36,8 +36,19 @@ public class StudentEvaluationService {
         this.evaluateFormValidator = evaluateFormValidator;
     }
 
-    public List<Evaluation> getStudentEvaluations() {
-        return this.evaluationRepository.findAll();
+    public List<GetEvaluationDto> getStudentEvaluations() {
+        return this.evaluationRepository.findAll().stream().map(evaluation -> new GetEvaluationDto(
+                evaluation.getId(),
+                evaluation.isActive(),
+                evaluation.getStudentId(),
+                evaluation.getUserId(),
+                (evaluation.getStream() != null) ? evaluation.getStream().toString() : null,
+                (evaluation.getCommunication() != null) ? evaluation.getCommunication().toString() : null,
+                (evaluation.getDirection() != null) ? evaluation.getDirection().toString() : null,
+                (evaluation.getLearnAbility() != null) ? evaluation.getLearnAbility().toString() : null,
+                evaluation.getEvaluation(),
+                evaluation.getComment(),
+                evaluation.getTimestamp())).collect(Collectors.toList());
     }
 
     public List<GetEvaluationDto> getUserStudentEvaluations(Long userId) {
@@ -73,13 +84,13 @@ public class StudentEvaluationService {
                 evaluation.getTimestamp())).collect(Collectors.toList());
     }
 
-    public Evaluation addStudentEvaluation(BindingResult bindingResult, Long studentId, AddUpdateEvaluationDto evaluationDto) {
+    public GetEvaluationDto addStudentEvaluation(BindingResult bindingResult, Long studentId, AddUpdateEvaluationDto evaluationDto) {
         Long userId = ((LoginUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
         if (!bindingResult.hasErrors()) {
             evaluateFormValidator.validateEvaluation(evaluationDto);
             Student student = this.studentRepository.findById(studentId).orElseThrow(StudentNotFoundException::new);
             User user = this.userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
-            return this.evaluationRepository.save(new Evaluation.EvaluationBuilder(student, user)
+            Evaluation newEvaluation = this.evaluationRepository.save(new Evaluation.EvaluationBuilder(student, user)
                     .setStream(evaluationDto.getStream())
                     .setCommunication(evaluationDto.getCommunication())
                     .setLearnAbility(evaluationDto.getLearnAbility())
@@ -87,12 +98,24 @@ public class StudentEvaluationService {
                     .setEvaluation(evaluationDto.getEvaluation())
                     .setComment(evaluationDto.getComment())
                     .setIsActive(true).build());
+
+            return new GetEvaluationDto(newEvaluation.getId(),
+                    newEvaluation.isActive(),
+                    newEvaluation.getStudentId(),
+                    newEvaluation.getUserId(),
+                    (newEvaluation.getStream() != null) ? newEvaluation.getStream().toString() : null,
+                    (newEvaluation.getCommunication() != null) ? newEvaluation.getCommunication().toString() : null,
+                    (newEvaluation.getDirection() != null) ? newEvaluation.getDirection().toString() : null,
+                    (newEvaluation.getLearnAbility() != null) ? newEvaluation.getLearnAbility().toString() : null,
+                    newEvaluation.getEvaluation(),
+                    newEvaluation.getComment(),
+                    newEvaluation.getTimestamp());
         } else {
             throw new InvalidStudentFormException("Invalid evaluation form values.");
         }
     }
 
-    public Evaluation updateStudentEvaluation(BindingResult bindingResult, Long evaluationId, Long studentId, AddUpdateEvaluationDto evaluationDto) {
+    public GetEvaluationDto updateStudentEvaluation(BindingResult bindingResult, Long evaluationId, Long studentId, AddUpdateEvaluationDto evaluationDto) {
         Long userId = ((LoginUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
         if (!bindingResult.hasErrors()) {
             evaluateFormValidator.validateEvaluation(evaluationDto);
@@ -103,7 +126,7 @@ public class StudentEvaluationService {
             Student student = this.studentRepository.findById(studentId).orElseThrow(StudentNotFoundException::new);
             User user = this.userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
 
-            return this.evaluationRepository.save(new Evaluation.EvaluationBuilder(student, user)
+            Evaluation newEvaluation = this.evaluationRepository.save(new Evaluation.EvaluationBuilder(student, user)
                     .setStream(evaluationDto.getStream())
                     .setCommunication(evaluationDto.getCommunication())
                     .setLearnAbility(evaluationDto.getLearnAbility())
@@ -112,6 +135,18 @@ public class StudentEvaluationService {
                     .setComment(evaluationDto.getComment())
                     .setId(evaluationId)
                     .setIsActive((evaluationDto.getIsActive() != null) ? evaluationDto.getIsActive() : evaluation.isActive()).build());
+
+            return new GetEvaluationDto(newEvaluation.getId(),
+                    newEvaluation.isActive(),
+                    newEvaluation.getStudentId(),
+                    newEvaluation.getUserId(),
+                    (newEvaluation.getStream() != null) ? newEvaluation.getStream().toString() : null,
+                    (newEvaluation.getCommunication() != null) ? newEvaluation.getCommunication().toString() : null,
+                    (newEvaluation.getDirection() != null) ? newEvaluation.getDirection().toString() : null,
+                    (newEvaluation.getLearnAbility() != null) ? newEvaluation.getLearnAbility().toString() : null,
+                    newEvaluation.getEvaluation(),
+                    newEvaluation.getComment(),
+                    newEvaluation.getTimestamp());
         } else {
             throw new InvalidStudentFormException("Invalid evaluation form values.");
         }

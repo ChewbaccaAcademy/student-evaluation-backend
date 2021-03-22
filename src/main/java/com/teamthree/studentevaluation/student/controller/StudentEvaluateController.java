@@ -27,7 +27,7 @@ public class StudentEvaluateController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping
-    public List<Evaluation> getEvaluations() {
+    public List<GetEvaluationDto> getEvaluations() {
         return this.studentEvaluationService.getStudentEvaluations();
     }
 
@@ -45,13 +45,13 @@ public class StudentEvaluateController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/{studentId}")
-    public Evaluation addEvaluation(@RequestBody @Valid AddUpdateEvaluationDto evaluationDto, BindingResult bindingResult, @PathVariable Long studentId) {
+    public GetEvaluationDto addEvaluation(@RequestBody @Valid AddUpdateEvaluationDto evaluationDto, BindingResult bindingResult, @PathVariable Long studentId) {
         return this.studentEvaluationService.addStudentEvaluation(bindingResult, studentId, evaluationDto);
     }
 
     @PreAuthorize("isAuthenticated()")
     @PutMapping("/{studentId}/{evaluationId}")
-    public Evaluation updateEvaluation(@RequestBody @Valid AddUpdateEvaluationDto evaluationDto, BindingResult bindingResult, @PathVariable Long studentId, @PathVariable Long evaluationId) {
+    public GetEvaluationDto updateEvaluation(@RequestBody @Valid AddUpdateEvaluationDto evaluationDto, BindingResult bindingResult, @PathVariable Long studentId, @PathVariable Long evaluationId) {
         return this.studentEvaluationService.updateStudentEvaluation(bindingResult, evaluationId, studentId, evaluationDto);
     }
     
