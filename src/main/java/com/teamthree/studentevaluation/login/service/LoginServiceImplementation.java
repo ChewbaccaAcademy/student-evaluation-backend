@@ -39,7 +39,7 @@ public class LoginServiceImplementation implements LoginService {
 
         final String jwt = jwtTokenUtil.generateToken(userDetails);
 
-        final AuthenticationResponse response = new AuthenticationResponse(jwt, userDetails.getAuthorities(), jwtTokenUtil.extractExpiration(jwt).getTime());
+        final AuthenticationResponse response = new AuthenticationResponse(jwt, userDetails.getAuthorities(), jwtTokenUtil.extractExpiration(jwt).getTime(), userDetails.getId());
 
         return response;
     }
