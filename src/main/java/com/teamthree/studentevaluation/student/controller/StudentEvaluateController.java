@@ -27,7 +27,7 @@ public class StudentEvaluateController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping
-    public List<Evaluation> getEvaluations() {
+    public List<GetEvaluationDto> getEvaluations() {
         return this.studentEvaluationService.getStudentEvaluations();
     }
 

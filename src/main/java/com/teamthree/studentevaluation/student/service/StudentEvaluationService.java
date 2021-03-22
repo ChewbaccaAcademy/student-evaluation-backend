@@ -36,8 +36,19 @@ public class StudentEvaluationService {
         this.evaluateFormValidator = evaluateFormValidator;
     }
 
-    public List<Evaluation> getStudentEvaluations() {
-        return this.evaluationRepository.findAll();
+    public List<GetEvaluationDto> getStudentEvaluations() {
+        return this.evaluationRepository.findAll().stream().map(evaluation -> new GetEvaluationDto(
+                evaluation.getId(),
+                evaluation.isActive(),
+                evaluation.getStudentId(),
+                evaluation.getUserId(),
+                (evaluation.getStream() != null) ? evaluation.getStream().toString() : null,
+                (evaluation.getCommunication() != null) ? evaluation.getCommunication().toString() : null,
+                (evaluation.getDirection() != null) ? evaluation.getDirection().toString() : null,
+                (evaluation.getLearnAbility() != null) ? evaluation.getLearnAbility().toString() : null,
+                evaluation.getEvaluation(),
+                evaluation.getComment(),
+                evaluation.getTimestamp())).collect(Collectors.toList());
     }
 
     public List<GetEvaluationDto> getUserStudentEvaluations(Long userId) {
