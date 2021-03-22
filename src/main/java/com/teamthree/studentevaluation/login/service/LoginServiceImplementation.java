@@ -33,7 +33,7 @@ public class LoginServiceImplementation implements LoginService {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest
                     .getEmail(), authenticationRequest.getPassword()));
         } catch (BadCredentialsException e) {
-            throw new IncorrectUserOrEmailException("Incorrect username or password!");
+            throw new IncorrectUserOrEmailException("Invalid email or password!");
         }
         final LoginUserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getEmail());
 
