@@ -12,7 +12,7 @@ public class AuthenticationResponse {
 
     public AuthenticationResponse(String jwt, Collection<? extends GrantedAuthority> role, long date) {
         this.jwt = jwt;
-        this.role = role.toString();
+        this.role = role.stream().findFirst().get().toString();
         this.date = date;
     }
 
