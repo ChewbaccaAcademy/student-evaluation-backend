@@ -1,6 +1,5 @@
 package com.teamthree.studentevaluation.student.controller;
 
-import com.teamthree.studentevaluation.student.entity.Evaluation;
 import com.teamthree.studentevaluation.student.model.AddUpdateEvaluationDto;
 import com.teamthree.studentevaluation.student.model.GetEvaluationDto;
 import com.teamthree.studentevaluation.student.service.StudentEvaluationService;
@@ -9,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 import java.util.List;
 
@@ -54,5 +54,5 @@ public class StudentEvaluateController {
     public GetEvaluationDto updateEvaluation(@RequestBody @Valid AddUpdateEvaluationDto evaluationDto, BindingResult bindingResult, @PathVariable Long studentId, @PathVariable Long evaluationId) {
         return this.studentEvaluationService.updateStudentEvaluation(bindingResult, evaluationId, studentId, evaluationDto);
     }
-    
+
 }
