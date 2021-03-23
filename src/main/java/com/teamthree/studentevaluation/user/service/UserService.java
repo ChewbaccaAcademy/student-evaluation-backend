@@ -1,13 +1,21 @@
 package com.teamthree.studentevaluation.user.service;
 
+import com.teamthree.studentevaluation.login.models.LoginUserDetails;
 import com.teamthree.studentevaluation.user.entity.User;
+import com.teamthree.studentevaluation.user.exceptions.UserNotFoundException;
+import com.teamthree.studentevaluation.user.model.GetUserDto;
 import com.teamthree.studentevaluation.user.model.UserDto;
 import com.teamthree.studentevaluation.user.model.LoginDto;
 import com.teamthree.studentevaluation.user.repository.UserRepository;
 import com.teamthree.studentevaluation.user.validators.InputDataValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AuthorizationServiceException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -35,10 +43,15 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void checkLogin(LoginDto loginDto){
-        String passwordHash = encoder.encode(loginDto.getPassword());
-        inputDataValidator.isUserAvailableWithGivenCredentials(loginDto.getEmail(), passwordHash);
-
+    public List<GetUserDto> getAllUsers() {
+        return this.userRepository.findAll().stream()
+                .map(user -> new GetUserDto(user.getId(), user.getUsername(), user.getStream()))
+                .collect(Collectors.toList());
     }
 
+    public GetUserDto getUserById(Long userId) {
+        return this.userRepository.findById(userId)
+                .map(user -> new GetUserDto(user.getId(), user.getUsername(), user.getStream()))
+                .orElseThrow(UserNotFoundException::new);
+    }
 }
