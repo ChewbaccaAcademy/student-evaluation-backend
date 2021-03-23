@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,6 +43,8 @@ public class StudentEvaluationService {
                 evaluation.isActive(),
                 evaluation.getStudentId(),
                 evaluation.getUserId(),
+                this.userRepository.findById(evaluation.getUserId()).map(User::getUsername).orElse(null),
+                this.userRepository.findById(evaluation.getUserId()).map(User::getStream).orElse(null),
                 (evaluation.getStream() != null) ? evaluation.getStream().toString() : null,
                 (evaluation.getCommunication() != null) ? evaluation.getCommunication().toString() : null,
                 (evaluation.getLearnAbility() != null) ? evaluation.getLearnAbility().toString() : null,
@@ -53,18 +56,21 @@ public class StudentEvaluationService {
 
     public List<GetEvaluationDto> getUserStudentEvaluations(Long userId) {
         User user = this.userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
-        return this.evaluationRepository.findByUser(user).orElseThrow(UserNotFoundException::new).stream().map(evaluation -> new GetEvaluationDto(
-                evaluation.getId(),
-                evaluation.isActive(),
-                evaluation.getStudentId(),
-                evaluation.getUserId(),
-                (evaluation.getStream() != null) ? evaluation.getStream().toString() : null,
-                (evaluation.getCommunication() != null) ? evaluation.getCommunication().toString() : null,
-                (evaluation.getLearnAbility() != null) ? evaluation.getLearnAbility().toString() : null,
-                (evaluation.getDirection() != null) ? evaluation.getDirection().toString() : null,
-                evaluation.getEvaluation(),
-                evaluation.getComment(),
-                evaluation.getTimestamp())).collect(Collectors.toList());
+        return this.evaluationRepository.findByUser(user).orElseThrow(UserNotFoundException::new).stream()
+                .map(evaluation -> new GetEvaluationDto(
+                        evaluation.getId(),
+                        evaluation.isActive(),
+                        evaluation.getStudentId(),
+                        evaluation.getUserId(),
+                        user.getUsername(),
+                        user.getStream(),
+                        (evaluation.getStream() != null) ? evaluation.getStream().toString() : null,
+                        (evaluation.getCommunication() != null) ? evaluation.getCommunication().toString() : null,
+                        (evaluation.getLearnAbility() != null) ? evaluation.getLearnAbility().toString() : null,
+                        (evaluation.getDirection() != null) ? evaluation.getDirection().toString() : null,
+                        evaluation.getEvaluation(),
+                        evaluation.getComment(),
+                        evaluation.getTimestamp())).collect(Collectors.toList());
     }
 
     public List<GetEvaluationDto> getStudentEvaluationsById(Long studentId) {
@@ -75,6 +81,8 @@ public class StudentEvaluationService {
                 evaluation.isActive(),
                 evaluation.getStudentId(),
                 evaluation.getUserId(),
+                this.userRepository.findById(evaluation.getUserId()).map(User::getUsername).orElse(null),
+                this.userRepository.findById(evaluation.getUserId()).map(User::getStream).orElse(null),
                 (evaluation.getStream() != null) ? evaluation.getStream().toString() : null,
                 (evaluation.getCommunication() != null) ? evaluation.getCommunication().toString() : null,
                 (evaluation.getLearnAbility() != null) ? evaluation.getLearnAbility().toString() : null,
@@ -103,6 +111,8 @@ public class StudentEvaluationService {
                     newEvaluation.isActive(),
                     newEvaluation.getStudentId(),
                     newEvaluation.getUserId(),
+                    this.userRepository.findById(newEvaluation.getUserId()).map(User::getUsername).orElse(null),
+                    this.userRepository.findById(newEvaluation.getUserId()).map(User::getStream).orElse(null),
                     (newEvaluation.getStream() != null) ? newEvaluation.getStream().toString() : null,
                     (newEvaluation.getCommunication() != null) ? newEvaluation.getCommunication().toString() : null,
                     (newEvaluation.getLearnAbility() != null) ? newEvaluation.getLearnAbility().toString() : null,
@@ -140,6 +150,8 @@ public class StudentEvaluationService {
                     newEvaluation.isActive(),
                     newEvaluation.getStudentId(),
                     newEvaluation.getUserId(),
+                    user.getUsername(),
+                    this.userRepository.findById(evaluation.getUserId()).map(User::getStream).orElse(null),
                     (newEvaluation.getStream() != null) ? newEvaluation.getStream().toString() : null,
                     (newEvaluation.getCommunication() != null) ? newEvaluation.getCommunication().toString() : null,
                     (newEvaluation.getDirection() != null) ? newEvaluation.getDirection().toString() : null,
