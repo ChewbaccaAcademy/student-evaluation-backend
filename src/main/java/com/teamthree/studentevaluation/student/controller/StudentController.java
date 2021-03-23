@@ -40,7 +40,7 @@ public class StudentController {
         return this.studentService.getStudentById(id);
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() and hasAuthority('ADMIN')")
     @PostMapping
     public Student addStudent(@RequestPart("student") @Valid AddStudentDto studentDto, BindingResult bindingResult, @RequestPart("image") @Nullable MultipartFile imageFile) {
         if (!bindingResult.hasErrors()) {
@@ -49,7 +49,7 @@ public class StudentController {
         throw new InvalidStudentFormException("Invalid student form.");
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() and hasAuthority('ADMIN')")
     @PutMapping("{id}")
     public Student updateStudent(@PathVariable Long id, @RequestPart("student") @Valid UpdateStudentDto studentDto, BindingResult bindingResult, @RequestPart("image") @Nullable MultipartFile imageFile) {
         if (!bindingResult.hasErrors()) {

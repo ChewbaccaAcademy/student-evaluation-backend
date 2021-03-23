@@ -44,8 +44,8 @@ public class StudentEvaluationService {
                 evaluation.getUserId(),
                 (evaluation.getStream() != null) ? evaluation.getStream().toString() : null,
                 (evaluation.getCommunication() != null) ? evaluation.getCommunication().toString() : null,
-                (evaluation.getDirection() != null) ? evaluation.getDirection().toString() : null,
                 (evaluation.getLearnAbility() != null) ? evaluation.getLearnAbility().toString() : null,
+                (evaluation.getDirection() != null) ? evaluation.getDirection().toString() : null,
                 evaluation.getEvaluation(),
                 evaluation.getComment(),
                 evaluation.getTimestamp())).collect(Collectors.toList());
@@ -60,8 +60,8 @@ public class StudentEvaluationService {
                 evaluation.getUserId(),
                 (evaluation.getStream() != null) ? evaluation.getStream().toString() : null,
                 (evaluation.getCommunication() != null) ? evaluation.getCommunication().toString() : null,
-                (evaluation.getDirection() != null) ? evaluation.getDirection().toString() : null,
                 (evaluation.getLearnAbility() != null) ? evaluation.getLearnAbility().toString() : null,
+                (evaluation.getDirection() != null) ? evaluation.getDirection().toString() : null,
                 evaluation.getEvaluation(),
                 evaluation.getComment(),
                 evaluation.getTimestamp())).collect(Collectors.toList());
@@ -77,8 +77,8 @@ public class StudentEvaluationService {
                 evaluation.getUserId(),
                 (evaluation.getStream() != null) ? evaluation.getStream().toString() : null,
                 (evaluation.getCommunication() != null) ? evaluation.getCommunication().toString() : null,
-                (evaluation.getDirection() != null) ? evaluation.getDirection().toString() : null,
                 (evaluation.getLearnAbility() != null) ? evaluation.getLearnAbility().toString() : null,
+                (evaluation.getDirection() != null) ? evaluation.getDirection().toString() : null,
                 evaluation.getEvaluation(),
                 evaluation.getComment(),
                 evaluation.getTimestamp())).collect(Collectors.toList());
@@ -105,8 +105,8 @@ public class StudentEvaluationService {
                     newEvaluation.getUserId(),
                     (newEvaluation.getStream() != null) ? newEvaluation.getStream().toString() : null,
                     (newEvaluation.getCommunication() != null) ? newEvaluation.getCommunication().toString() : null,
-                    (newEvaluation.getDirection() != null) ? newEvaluation.getDirection().toString() : null,
                     (newEvaluation.getLearnAbility() != null) ? newEvaluation.getLearnAbility().toString() : null,
+                    (newEvaluation.getDirection() != null) ? newEvaluation.getDirection().toString() : null,
                     newEvaluation.getEvaluation(),
                     newEvaluation.getComment(),
                     newEvaluation.getTimestamp());
