@@ -11,26 +11,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class LoginController {
 
-
     private LoginService loginService;
 
     @Autowired
     public LoginController(LoginService loginService) {
         this.loginService = loginService;
-    }
-
-
-    @PreAuthorize("isAuthenticated() and hasAuthority('ADMIN')")
-    @RequestMapping("/hello")
-    public String index() {
-        return "Hello world!";
-    }
-
-
-    // @PreAuthorize("permitAll")
-    @RequestMapping("/hello2")
-    public String index2() {
-        return "Hello world!";
     }
 
     @PreAuthorize("permitAll")

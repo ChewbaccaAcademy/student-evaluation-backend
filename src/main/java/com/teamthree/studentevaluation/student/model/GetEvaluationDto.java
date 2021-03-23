@@ -14,6 +14,10 @@ public class GetEvaluationDto {
 
     private final Long userId;
 
+    private final String userUsername;
+
+    private final String userStream;
+
     private final String stream;
 
     private final String communication;
@@ -28,11 +32,13 @@ public class GetEvaluationDto {
 
     private final Timestamp timestamp;
 
-    public GetEvaluationDto(Long id, Boolean isActive, Long studentId, Long userId, String stream, String communication, String learnAbility, String direction, Integer evaluation, String comment, Timestamp timestamp) {
+    public GetEvaluationDto(Long id, Boolean isActive, Long studentId, Long userId, String userUsername, String userStream, String stream, String communication, String learnAbility, String direction, Integer evaluation, String comment, Timestamp timestamp) {
         this.id = id;
         this.isActive = isActive;
         this.studentId = studentId;
         this.userId = userId;
+        this.userUsername = userUsername;
+        this.userStream = userStream;
         this.stream = stream;
         this.communication = communication;
         this.learnAbility = learnAbility;
@@ -56,6 +62,14 @@ public class GetEvaluationDto {
 
     public Long getUserId() {
         return userId;
+    }
+
+    public String getUserUsername() {
+        return userUsername;
+    }
+
+    public String getUserStream() {
+        return userStream;
     }
 
     public String getStream() {
