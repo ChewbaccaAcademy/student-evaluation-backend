@@ -1,19 +1,39 @@
 package com.teamthree.studentevaluation.student.entity.types;
 
-public enum Stream {
-    FE("FE"),
-    BE("BE"),
-    QA("QA"),
-    PROJECT("Project");
+public enum Stream implements Type {
+    FE(0) {
+        @Override
+        public String toString() {
+            return "FE";
+        }
+    },
+    BE(1) {
+        @Override
+        public String toString() {
+            return "BE";
+        }
+    },
+    QA(2){
+        @Override
+        public String toString() {
+            return "QA";
+        }
+    },
+    PROJECT(3){
+        @Override
+        public String toString() {
+            return "Project";
+        }
+    };
 
-    private final String type;
+    private final int value;
 
-    Stream(String type) {
-        this.type = type;
+    Stream(int value) {
+        this.value = value;
     }
 
-    @Override
-    public String toString() {
-        return type;
+    public int getValue() {
+        return value;
     }
+
 }

@@ -1,19 +1,38 @@
 package com.teamthree.studentevaluation.student.entity.types;
 
-public enum Direction {
-    JAVA("Java"),
-    ANGULAR("Angular"),
-    TESTING("Testing"),
-    OTHER("Other");
+public enum Direction implements Type {
+    JAVA(0) {
+        @Override
+        public String toString() {
+            return "Java";
+        }
+    },
+    ANGULAR(1) {
+        @Override
+        public String toString() {
+            return "Angular";
+        }
+    },
+    TESTING(2) {
+        @Override
+        public String toString() {
+            return "Testing";
+        }
+    },
+    OTHER(3) {
+        @Override
+        public String toString() {
+            return "Other";
+        }
+    };
 
-    private final String type;
+    private final int value;
 
-    Direction(String type) {
-        this.type = type;
+    Direction(int value) {
+        this.value = value;
     }
 
-    @Override
-    public String toString() {
-        return type;
+    public int getValue() {
+        return value;
     }
 }

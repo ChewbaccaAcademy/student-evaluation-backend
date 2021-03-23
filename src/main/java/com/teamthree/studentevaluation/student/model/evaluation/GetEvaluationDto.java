@@ -1,4 +1,4 @@
-package com.teamthree.studentevaluation.student.model;
+package com.teamthree.studentevaluation.student.model.evaluation;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.sql.Timestamp;

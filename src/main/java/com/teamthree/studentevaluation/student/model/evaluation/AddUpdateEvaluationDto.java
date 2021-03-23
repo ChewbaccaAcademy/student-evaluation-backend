@@ -1,4 +1,4 @@
-package com.teamthree.studentevaluation.student.model;
+package com.teamthree.studentevaluation.student.model.evaluation;
 
 import com.teamthree.studentevaluation.student.entity.types.Communication;
 import com.teamthree.studentevaluation.student.entity.types.Direction;

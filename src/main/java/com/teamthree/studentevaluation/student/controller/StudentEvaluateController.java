@@ -1,7 +1,7 @@
 package com.teamthree.studentevaluation.student.controller;
 
-import com.teamthree.studentevaluation.student.model.AddUpdateEvaluationDto;
-import com.teamthree.studentevaluation.student.model.GetEvaluationDto;
+import com.teamthree.studentevaluation.student.model.evaluation.AddUpdateEvaluationDto;
+import com.teamthree.studentevaluation.student.model.evaluation.GetEvaluationDto;
 import com.teamthree.studentevaluation.student.service.StudentEvaluationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;

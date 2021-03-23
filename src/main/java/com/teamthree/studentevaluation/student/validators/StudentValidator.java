@@ -1,7 +1,7 @@
 package com.teamthree.studentevaluation.student.validators;
 
 import com.teamthree.studentevaluation.student.exceptions.StudentNotFoundException;
-import com.teamthree.studentevaluation.student.model.UpdateStudentDto;
+import com.teamthree.studentevaluation.student.model.student.UpdateStudentDto;
 import com.teamthree.studentevaluation.student.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

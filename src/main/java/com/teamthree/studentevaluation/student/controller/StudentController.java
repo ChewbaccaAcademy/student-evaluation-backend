@@ -2,8 +2,8 @@ package com.teamthree.studentevaluation.student.controller;
 
 import com.teamthree.studentevaluation.student.entity.Student;
 import com.teamthree.studentevaluation.student.exceptions.InvalidStudentFormException;
-import com.teamthree.studentevaluation.student.model.AddStudentDto;
-import com.teamthree.studentevaluation.student.model.UpdateStudentDto;
+import com.teamthree.studentevaluation.student.model.student.AddStudentDto;
+import com.teamthree.studentevaluation.student.model.student.UpdateStudentDto;
 import com.teamthree.studentevaluation.student.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
