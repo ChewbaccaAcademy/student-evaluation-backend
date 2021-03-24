@@ -71,14 +71,17 @@ public class Evaluation {
     public static class EvaluationBuilder {
         private Long id;
         private Boolean isActive;
-        private final Student student;
-        private final User user;
+        private Student student;
+        private User user;
         private StreamType stream;
         private Communication communication;
         private LearnAbility learnAbility;
         private Direction direction;
         private Integer evaluation;
         private String comment;
+
+        public EvaluationBuilder() {
+        }
 
         public EvaluationBuilder(Student student, User user) {
             this.student = student;
@@ -92,6 +95,16 @@ public class Evaluation {
 
         public EvaluationBuilder setIsActive(boolean isActive) {
             this.isActive = isActive;
+            return this;
+        }
+
+        public EvaluationBuilder setStudent(Student student) {
+            this.student = student;
+            return this;
+        }
+
+        public EvaluationBuilder setUser(User user) {
+            this.user = user;
             return this;
         }
 
