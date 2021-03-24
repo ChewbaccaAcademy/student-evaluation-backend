@@ -23,7 +23,7 @@ public class Evaluation {
     @JsonProperty(value = "isActive")
     private Boolean isActive;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "student_id")
     private Student student;
 
