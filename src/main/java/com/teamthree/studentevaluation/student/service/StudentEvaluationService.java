@@ -80,7 +80,7 @@ public class StudentEvaluationService {
         List<Student> students = this.studentRepository.findAll();
         return this.evaluationRepository.findByUser(user).orElseThrow(UserNotFoundException::new).stream()
                 .map(evaluation -> new GetUserEvaluationDto(
-                        students.stream().filter(s -> s.getId() == evaluation.getStudentId()).collect(Collectors.toList()).get(0),
+                        students.stream().filter(s -> s.getId().equals(evaluation.getStudentId())).collect(Collectors.toList()).get(0),
                         new GetEvaluationDto(evaluation, user)
                 )).collect(Collectors.toList());
     }
