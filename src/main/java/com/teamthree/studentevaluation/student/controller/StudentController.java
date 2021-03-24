@@ -3,6 +3,7 @@ package com.teamthree.studentevaluation.student.controller;
 import com.teamthree.studentevaluation.student.entity.Student;
 import com.teamthree.studentevaluation.student.exceptions.InvalidStudentFormException;
 import com.teamthree.studentevaluation.student.model.student.AddStudentDto;
+import com.teamthree.studentevaluation.student.model.student.GetStudentWithAverageDto;
 import com.teamthree.studentevaluation.student.model.student.UpdateStudentDto;
 import com.teamthree.studentevaluation.student.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +31,13 @@ public class StudentController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping(produces = "application/json")
-    public List<Student> getAllStudents() {
+    public List<GetStudentWithAverageDto> getAllStudents() {
         return this.studentService.getAllStudent();
     }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("{id}")
-    public Student getStudentById(@PathVariable Long id) {
+    public GetStudentWithAverageDto getStudentById(@PathVariable Long id) {
         return this.studentService.getStudentById(id);
     }
 

@@ -93,4 +93,8 @@ public class Student {
     public Image getImage() {
         return image;
     }
+
+    public List<Evaluation> getEvaluation() {
+        return evaluation;
+    }
 }
