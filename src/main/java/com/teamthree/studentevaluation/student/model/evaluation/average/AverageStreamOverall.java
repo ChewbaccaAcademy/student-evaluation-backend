@@ -1,4 +1,4 @@
-package com.teamthree.studentevaluation.student.model;
+package com.teamthree.studentevaluation.student.model.evaluation.average;
 
 public class AverageStreamOverall {
 

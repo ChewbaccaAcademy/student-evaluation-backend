@@ -1,9 +1,11 @@
 package com.teamthree.studentevaluation.student.model.student;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.teamthree.studentevaluation.student.entity.Image;
-import com.teamthree.studentevaluation.student.model.evaluation.AverageEvaluation;
+import com.teamthree.studentevaluation.student.model.evaluation.average.AverageEvaluation;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class GetStudentWithAverageDto {
 
     private final Long id;

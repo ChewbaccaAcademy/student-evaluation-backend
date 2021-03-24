@@ -1,6 +1,6 @@
 package com.teamthree.studentevaluation.student.entity.types;
 
-public enum Stream implements Type {
+public enum StreamType implements Type {
     FE(0) {
         @Override
         public String toString() {
@@ -28,7 +28,7 @@ public enum Stream implements Type {
 
     private final int value;
 
-    Stream(int value) {
+    StreamType(int value) {
         this.value = value;
     }
 

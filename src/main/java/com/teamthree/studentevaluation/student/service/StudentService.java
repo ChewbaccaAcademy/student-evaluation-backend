@@ -5,7 +5,7 @@ import com.teamthree.studentevaluation.student.entity.Image;
 import com.teamthree.studentevaluation.student.entity.Student;
 import com.teamthree.studentevaluation.student.exceptions.InvalidStudentFormException;
 import com.teamthree.studentevaluation.student.exceptions.StudentNotFoundException;
-import com.teamthree.studentevaluation.student.model.EvaluationAverager;
+import com.teamthree.studentevaluation.student.model.evaluation.average.EvaluationAverager;
 import com.teamthree.studentevaluation.student.model.student.AddStudentDto;
 import com.teamthree.studentevaluation.student.model.student.GetStudentWithAverageDto;
 import com.teamthree.studentevaluation.student.model.student.UpdateStudentDto;
@@ -61,7 +61,7 @@ public class StudentService {
                         s.getComment(),
                         s.getImage(),
                         evaluations.stream().filter(x -> x.getStudentId() == s.getId())
-                                .collect(EvaluationAverager::new, EvaluationAverager::accept, EvaluationAverager::combine).average()
+                                .collect(EvaluationAverager::new, EvaluationAverager::acceptEvaluation, EvaluationAverager::combine).average()
                 ))
                 .collect(Collectors.toList());
     }
@@ -81,7 +81,7 @@ public class StudentService {
                 student.getUniversity(),
                 student.getComment(),
                 student.getImage(),
-                evaluations.stream().collect(EvaluationAverager::new, EvaluationAverager::accept, EvaluationAverager::combine).average()
+                evaluations.stream().collect(EvaluationAverager::new, EvaluationAverager::acceptEvaluation, EvaluationAverager::combine).average()
         );
     }
 
