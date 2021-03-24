@@ -1,7 +1,7 @@
 package com.teamthree.studentevaluation.student.validators;
 
 import com.teamthree.studentevaluation.student.exceptions.InvalidStudentEvaluationFormException;
-import com.teamthree.studentevaluation.student.model.AddUpdateEvaluationDto;
+import com.teamthree.studentevaluation.student.model.evaluation.AddUpdateEvaluationDto;
 import org.springframework.stereotype.Component;
 
 @Component

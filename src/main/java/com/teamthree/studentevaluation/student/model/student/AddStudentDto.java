@@ -1,17 +1,18 @@
-package com.teamthree.studentevaluation.student.model;
+package com.teamthree.studentevaluation.student.model.student;
 
 import org.springframework.lang.Nullable;
 
 import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class UpdateStudentDto {
+public class AddStudentDto {
 
-    @Nullable
     @Column(name="active")
     private final Boolean isActive;
 
+    @NotNull
     @NotBlank(message = "Student name is mandatory.")
     @Size(min = 1, max = 256)
     private final String name;
@@ -26,16 +27,12 @@ public class UpdateStudentDto {
     @Nullable
     private final String comment;
 
-    public UpdateStudentDto(Boolean isActive, String name, String lastname, String university, String comment) {
+    public AddStudentDto(Boolean isActive, String name, String lastname, String university, String comment) {
         this.isActive = isActive;
         this.name = name;
         this.lastname = lastname;
         this.university = university;
         this.comment = comment;
-    }
-
-    public Boolean getIsActive() {
-        return isActive;
     }
 
     public String getName() {
@@ -53,4 +50,5 @@ public class UpdateStudentDto {
     public String getComment() {
         return comment;
     }
+
 }

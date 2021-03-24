@@ -1,9 +1,9 @@
-package com.teamthree.studentevaluation.student.model;
+package com.teamthree.studentevaluation.student.model.evaluation;
 
 import com.teamthree.studentevaluation.student.entity.types.Communication;
 import com.teamthree.studentevaluation.student.entity.types.Direction;
 import com.teamthree.studentevaluation.student.entity.types.LearnAbility;
-import com.teamthree.studentevaluation.student.entity.types.Stream;
+import com.teamthree.studentevaluation.student.entity.types.StreamType;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
@@ -18,7 +18,7 @@ public class AddUpdateEvaluationDto {
     private final Boolean isActive;
 
     @Enumerated(EnumType.STRING)
-    private final Stream stream;
+    private final StreamType streamType;
 
     @Enumerated(EnumType.ORDINAL)
     private final Communication communication;
@@ -38,9 +38,9 @@ public class AddUpdateEvaluationDto {
 
     private final Timestamp timestamp;
 
-    public AddUpdateEvaluationDto(Boolean isActive, Stream stream, Communication communication, LearnAbility learnAbility, Direction direction, @NotNull Integer evaluation, @Size(max = 250) String comment, Timestamp timestamp) {
+    public AddUpdateEvaluationDto(Boolean isActive, StreamType streamType, Communication communication, LearnAbility learnAbility, Direction direction, @NotNull Integer evaluation, @Size(max = 250) String comment, Timestamp timestamp) {
         this.isActive = isActive;
-        this.stream = stream;
+        this.streamType = streamType;
         this.communication = communication;
         this.learnAbility = learnAbility;
         this.direction = direction;
@@ -53,8 +53,8 @@ public class AddUpdateEvaluationDto {
         return isActive;
     }
 
-    public Stream getStream() {
-        return stream;
+    public StreamType getStream() {
+        return streamType;
     }
 
     public Communication getCommunication() {

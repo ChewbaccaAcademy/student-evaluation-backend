@@ -1,38 +1,39 @@
 package com.teamthree.studentevaluation.student.entity.types;
 
-public enum Communication implements Type {
-    ACTIVE(0) {
+public enum StreamType implements Type {
+    FE(0) {
         @Override
         public String toString() {
-            return "Is active";
+            return "FE";
         }
     },
-    PASSIVE(1) {
+    BE(1) {
         @Override
         public String toString() {
-            return "Is passive";
+            return "BE";
         }
     },
-    COMMUNICATIVE(2) {
+    QA(2){
         @Override
         public String toString() {
-            return "Communicative";
+            return "QA";
         }
     },
-    WRITTEN(3) {
+    PROJECT(3){
         @Override
         public String toString() {
-            return "Prefers written communication over verbal";
+            return "Project";
         }
     };
 
     private final int value;
 
-    Communication(final int value) {
+    StreamType(int value) {
         this.value = value;
     }
 
     public int getValue() {
         return value;
     }
+
 }

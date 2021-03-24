@@ -6,8 +6,8 @@ import com.teamthree.studentevaluation.student.entity.Student;
 import com.teamthree.studentevaluation.student.exceptions.EvaluationNotFoundException;
 import com.teamthree.studentevaluation.student.exceptions.InvalidStudentFormException;
 import com.teamthree.studentevaluation.student.exceptions.StudentNotFoundException;
-import com.teamthree.studentevaluation.student.model.AddUpdateEvaluationDto;
-import com.teamthree.studentevaluation.student.model.GetEvaluationDto;
+import com.teamthree.studentevaluation.student.model.evaluation.AddUpdateEvaluationDto;
+import com.teamthree.studentevaluation.student.model.evaluation.GetEvaluationDto;
 import com.teamthree.studentevaluation.student.repository.EvaluationRepository;
 import com.teamthree.studentevaluation.student.repository.StudentRepository;
 import com.teamthree.studentevaluation.student.validators.EvaluateFormValidator;
@@ -45,10 +45,10 @@ public class StudentEvaluationService {
                 evaluation.getUserId(),
                 this.userRepository.findById(evaluation.getUserId()).map(User::getUsername).orElse(null),
                 this.userRepository.findById(evaluation.getUserId()).map(User::getStream).orElse(null),
-                (evaluation.getStream() != null) ? evaluation.getStream().toString() : null,
-                (evaluation.getCommunication() != null) ? evaluation.getCommunication().toString() : null,
-                (evaluation.getLearnAbility() != null) ? evaluation.getLearnAbility().toString() : null,
-                (evaluation.getDirection() != null) ? evaluation.getDirection().toString() : null,
+                (evaluation.getStream() != null) ? evaluation.getStream().getValue() : null,
+                (evaluation.getCommunication() != null) ? evaluation.getCommunication().getValue() : null,
+                (evaluation.getLearnAbility() != null) ? evaluation.getLearnAbility().getValue() : null,
+                (evaluation.getDirection() != null) ? evaluation.getDirection().getValue() : null,
                 evaluation.getEvaluation(),
                 evaluation.getComment(),
                 evaluation.getTimestamp())).collect(Collectors.toList());
@@ -64,10 +64,10 @@ public class StudentEvaluationService {
                         evaluation.getUserId(),
                         user.getUsername(),
                         user.getStream(),
-                        (evaluation.getStream() != null) ? evaluation.getStream().toString() : null,
-                        (evaluation.getCommunication() != null) ? evaluation.getCommunication().toString() : null,
-                        (evaluation.getLearnAbility() != null) ? evaluation.getLearnAbility().toString() : null,
-                        (evaluation.getDirection() != null) ? evaluation.getDirection().toString() : null,
+                        (evaluation.getStream() != null) ? evaluation.getStream().getValue() : null,
+                        (evaluation.getCommunication() != null) ? evaluation.getCommunication().getValue() : null,
+                        (evaluation.getLearnAbility() != null) ? evaluation.getLearnAbility().getValue() : null,
+                        (evaluation.getDirection() != null) ? evaluation.getDirection().getValue() : null,
                         evaluation.getEvaluation(),
                         evaluation.getComment(),
                         evaluation.getTimestamp())).collect(Collectors.toList());
@@ -83,10 +83,10 @@ public class StudentEvaluationService {
                 evaluation.getUserId(),
                 this.userRepository.findById(evaluation.getUserId()).map(User::getUsername).orElse(null),
                 this.userRepository.findById(evaluation.getUserId()).map(User::getStream).orElse(null),
-                (evaluation.getStream() != null) ? evaluation.getStream().toString() : null,
-                (evaluation.getCommunication() != null) ? evaluation.getCommunication().toString() : null,
-                (evaluation.getLearnAbility() != null) ? evaluation.getLearnAbility().toString() : null,
-                (evaluation.getDirection() != null) ? evaluation.getDirection().toString() : null,
+                (evaluation.getStream() != null) ? evaluation.getStream().getValue() : null,
+                (evaluation.getCommunication() != null) ? evaluation.getCommunication().getValue() : null,
+                (evaluation.getLearnAbility() != null) ? evaluation.getLearnAbility().getValue() : null,
+                (evaluation.getDirection() != null) ? evaluation.getDirection().getValue() : null,
                 evaluation.getEvaluation(),
                 evaluation.getComment(),
                 evaluation.getTimestamp())).collect(Collectors.toList());
@@ -113,10 +113,10 @@ public class StudentEvaluationService {
                     newEvaluation.getUserId(),
                     this.userRepository.findById(newEvaluation.getUserId()).map(User::getUsername).orElse(null),
                     this.userRepository.findById(newEvaluation.getUserId()).map(User::getStream).orElse(null),
-                    (newEvaluation.getStream() != null) ? newEvaluation.getStream().toString() : null,
-                    (newEvaluation.getCommunication() != null) ? newEvaluation.getCommunication().toString() : null,
-                    (newEvaluation.getLearnAbility() != null) ? newEvaluation.getLearnAbility().toString() : null,
-                    (newEvaluation.getDirection() != null) ? newEvaluation.getDirection().toString() : null,
+                    (newEvaluation.getStream() != null) ? newEvaluation.getStream().getValue() : null,
+                    (newEvaluation.getCommunication() != null) ? newEvaluation.getCommunication().getValue() : null,
+                    (newEvaluation.getLearnAbility() != null) ? newEvaluation.getLearnAbility().getValue() : null,
+                    (newEvaluation.getDirection() != null) ? newEvaluation.getDirection().getValue() : null,
                     newEvaluation.getEvaluation(),
                     newEvaluation.getComment(),
                     newEvaluation.getTimestamp());
@@ -152,10 +152,10 @@ public class StudentEvaluationService {
                     newEvaluation.getUserId(),
                     user.getUsername(),
                     this.userRepository.findById(evaluation.getUserId()).map(User::getStream).orElse(null),
-                    (newEvaluation.getStream() != null) ? newEvaluation.getStream().toString() : null,
-                    (newEvaluation.getCommunication() != null) ? newEvaluation.getCommunication().toString() : null,
-                    (newEvaluation.getDirection() != null) ? newEvaluation.getDirection().toString() : null,
-                    (newEvaluation.getLearnAbility() != null) ? newEvaluation.getLearnAbility().toString() : null,
+                    (newEvaluation.getStream() != null) ? newEvaluation.getStream().getValue() : null,
+                    (newEvaluation.getCommunication() != null) ? newEvaluation.getCommunication().getValue() : null,
+                    (newEvaluation.getDirection() != null) ? newEvaluation.getDirection().getValue() : null,
+                    (newEvaluation.getLearnAbility() != null) ? newEvaluation.getLearnAbility().getValue() : null,
                     newEvaluation.getEvaluation(),
                     newEvaluation.getComment(),
                     newEvaluation.getTimestamp());
