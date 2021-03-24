@@ -17,8 +17,8 @@ public class AddUpdateEvaluationDto {
     @Column(name="active")
     private final Boolean isActive;
 
-    @Enumerated(EnumType.STRING)
-    private final StreamType streamType;
+    @Enumerated(EnumType.ORDINAL)
+    private final StreamType stream;
 
     @Enumerated(EnumType.ORDINAL)
     private final Communication communication;
@@ -38,9 +38,9 @@ public class AddUpdateEvaluationDto {
 
     private final Timestamp timestamp;
 
-    public AddUpdateEvaluationDto(Boolean isActive, StreamType streamType, Communication communication, LearnAbility learnAbility, Direction direction, @NotNull Integer evaluation, @Size(max = 250) String comment, Timestamp timestamp) {
+    public AddUpdateEvaluationDto(Boolean isActive, StreamType stream, Communication communication, LearnAbility learnAbility, Direction direction, @NotNull Integer evaluation, @Size(max = 250) String comment, Timestamp timestamp) {
         this.isActive = isActive;
-        this.streamType = streamType;
+        this.stream = stream;
         this.communication = communication;
         this.learnAbility = learnAbility;
         this.direction = direction;
@@ -54,7 +54,7 @@ public class AddUpdateEvaluationDto {
     }
 
     public StreamType getStream() {
-        return streamType;
+        return stream;
     }
 
     public Communication getCommunication() {
