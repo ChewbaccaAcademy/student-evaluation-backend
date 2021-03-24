@@ -16,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.util.List;
 
-
 @RestController
 @RequestMapping("/student")
 @CrossOrigin(origins = {"https://team-three-frontend.herokuapp.com", "http://localhost:4200"})
