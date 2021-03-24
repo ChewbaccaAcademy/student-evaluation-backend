@@ -18,13 +18,13 @@ public class GetEvaluationDto {
 
     private final String userStream;
 
-    private final String stream;
+    private final Integer stream;
 
-    private final String communication;
+    private final Integer communication;
 
-    private final String learnAbility;
+    private final Integer learnAbility;
 
-    private final String direction;
+    private final Integer direction;
 
     private final Integer evaluation;
 
@@ -32,7 +32,7 @@ public class GetEvaluationDto {
 
     private final Timestamp timestamp;
 
-    public GetEvaluationDto(Long id, Boolean isActive, Long studentId, Long userId, String userUsername, String userStream, String stream, String communication, String learnAbility, String direction, Integer evaluation, String comment, Timestamp timestamp) {
+    public GetEvaluationDto(Long id, Boolean isActive, Long studentId, Long userId, String userUsername, String userStream, Integer stream, Integer communication, Integer learnAbility, Integer direction, Integer evaluation, String comment, Timestamp timestamp) {
         this.id = id;
         this.isActive = isActive;
         this.studentId = studentId;
@@ -72,19 +72,19 @@ public class GetEvaluationDto {
         return userStream;
     }
 
-    public String getStream() {
+    public Integer getStream() {
         return stream;
     }
 
-    public String getCommunication() {
+    public Integer getCommunication() {
         return communication;
     }
 
-    public String getLearnAbility() {
+    public Integer getLearnAbility() {
         return learnAbility;
     }
 
-    public String getDirection() {
+    public Integer getDirection() {
         return direction;
     }
 
