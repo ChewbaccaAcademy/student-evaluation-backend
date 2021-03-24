@@ -2,6 +2,7 @@ package com.teamthree.studentevaluation.student.controller;
 
 import com.teamthree.studentevaluation.student.model.evaluation.AddUpdateEvaluationDto;
 import com.teamthree.studentevaluation.student.model.evaluation.GetEvaluationDto;
+import com.teamthree.studentevaluation.student.model.evaluation.GetUserEvaluationDto;
 import com.teamthree.studentevaluation.student.service.StudentEvaluationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -35,6 +36,12 @@ public class StudentEvaluateController {
     @GetMapping("/user/{userId}")
     public List<GetEvaluationDto> getUserStudentEvaluations(@PathVariable Long userId) {
         return this.studentEvaluationService.getUserStudentEvaluations(userId);
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/user/details")
+    public List<GetUserEvaluationDto> getUserEvaluations() {
+        return this.studentEvaluationService.getUserEvaluations();
     }
 
     @PreAuthorize("isAuthenticated()")

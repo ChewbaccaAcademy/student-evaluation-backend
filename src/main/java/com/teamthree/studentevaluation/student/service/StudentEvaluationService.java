@@ -8,6 +8,7 @@ import com.teamthree.studentevaluation.student.exceptions.InvalidStudentFormExce
 import com.teamthree.studentevaluation.student.exceptions.StudentNotFoundException;
 import com.teamthree.studentevaluation.student.model.evaluation.AddUpdateEvaluationDto;
 import com.teamthree.studentevaluation.student.model.evaluation.GetEvaluationDto;
+import com.teamthree.studentevaluation.student.model.evaluation.GetUserEvaluationDto;
 import com.teamthree.studentevaluation.student.repository.EvaluationRepository;
 import com.teamthree.studentevaluation.student.repository.StudentRepository;
 import com.teamthree.studentevaluation.student.validators.EvaluateFormValidator;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -71,6 +73,17 @@ public class StudentEvaluationService {
                         evaluation.getEvaluation(),
                         evaluation.getComment(),
                         evaluation.getTimestamp())).collect(Collectors.toList());
+    }
+
+    public List<GetUserEvaluationDto> getUserEvaluations() {
+        Long userId = ((LoginUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+        User user = this.userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        List<Student> students = this.studentRepository.findAll();
+        return this.evaluationRepository.findByUser(user).orElseThrow(UserNotFoundException::new).stream()
+                .map(evaluation -> new GetUserEvaluationDto(
+                        students.stream().filter(s -> s.getId().equals(evaluation.getStudentId())).collect(Collectors.toList()).get(0),
+                        new GetEvaluationDto(evaluation, user)
+                )).collect(Collectors.toList());
     }
 
     public List<GetEvaluationDto> getStudentEvaluationsById(Long studentId) {

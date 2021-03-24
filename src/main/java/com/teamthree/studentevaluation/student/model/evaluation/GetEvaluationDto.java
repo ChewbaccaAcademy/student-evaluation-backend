@@ -1,6 +1,9 @@
 package com.teamthree.studentevaluation.student.model.evaluation;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.teamthree.studentevaluation.student.entity.Evaluation;
+import com.teamthree.studentevaluation.user.entity.User;
+
 import java.sql.Timestamp;
 
 public class GetEvaluationDto {
@@ -45,6 +48,22 @@ public class GetEvaluationDto {
         this.evaluation = evaluation;
         this.comment = comment;
         this.timestamp = timestamp;
+    }
+
+    public GetEvaluationDto(Evaluation evaluation, User user) {
+        this.id = evaluation.getId();
+        this.isActive = evaluation.isActive();
+        this.studentId = evaluation.getStudentId();
+        this.userId = evaluation.getUserId();
+        this.userUsername = user.getUsername();
+        this.userStream = (user != null) ? user.getStream() : null;
+        this.stream = (evaluation.getStream() != null) ? evaluation.getStream().toString() : null;
+        this.communication = (evaluation.getCommunication() != null) ? evaluation.getCommunication().getValue() : null;
+        this.learnAbility = (evaluation.getLearnAbility() != null) ? evaluation.getLearnAbility().getValue() : null;
+        this.direction = (evaluation.getDirection() != null) ? evaluation.getDirection().getValue() : null;
+        this.evaluation = evaluation.getEvaluation();
+        this.comment = (evaluation.getComment() != null) ?  evaluation.getComment() : null;
+        this.timestamp = evaluation.getTimestamp();
     }
 
     public Long getId() {
