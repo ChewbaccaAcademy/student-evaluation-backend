@@ -3,7 +3,6 @@ package com.teamthree.studentevaluation.student.model.evaluation;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.sql.Timestamp;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class GetEvaluationDto {
 
     private final Long id;
@@ -18,7 +17,7 @@ public class GetEvaluationDto {
 
     private final String userStream;
 
-    private final Integer stream;
+    private final String stream;
 
     private final Integer communication;
 
@@ -32,7 +31,7 @@ public class GetEvaluationDto {
 
     private final Timestamp timestamp;
 
-    public GetEvaluationDto(Long id, Boolean isActive, Long studentId, Long userId, String userUsername, String userStream, Integer stream, Integer communication, Integer learnAbility, Integer direction, Integer evaluation, String comment, Timestamp timestamp) {
+    public GetEvaluationDto(Long id, Boolean isActive, Long studentId, Long userId, String userUsername, String userStream, String stream, Integer communication, Integer learnAbility, Integer direction, Integer evaluation, String comment, Timestamp timestamp) {
         this.id = id;
         this.isActive = isActive;
         this.studentId = studentId;
@@ -72,7 +71,7 @@ public class GetEvaluationDto {
         return userStream;
     }
 
-    public Integer getStream() {
+    public String getStream() {
         return stream;
     }
 

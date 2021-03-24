@@ -32,7 +32,8 @@ public class Evaluation {
     private User user;
 
     @Enumerated(EnumType.ORDINAL)
-    private StreamType streamType;
+    @Column(name = "stream")
+    private StreamType stream;
 
     @Enumerated(EnumType.ORDINAL)
     @Column(columnDefinition = "smallint")
@@ -72,7 +73,7 @@ public class Evaluation {
         private Boolean isActive;
         private final Student student;
         private final User user;
-        private StreamType streamType;
+        private StreamType stream;
         private Communication communication;
         private LearnAbility learnAbility;
         private Direction direction;
@@ -94,8 +95,8 @@ public class Evaluation {
             return this;
         }
 
-        public EvaluationBuilder setStream(StreamType streamType) {
-            this.streamType = streamType;
+        public EvaluationBuilder setStream(StreamType stream) {
+            this.stream = stream;
             return this;
         }
 
@@ -134,7 +135,7 @@ public class Evaluation {
         this.isActive = builder.isActive;
         this.student = builder.student;
         this.user = builder.user;
-        this.streamType = builder.streamType;
+        this.stream = builder.stream;
         this.communication = builder.communication;
         this.learnAbility = builder.learnAbility;
         this.direction = builder.direction;
@@ -160,7 +161,7 @@ public class Evaluation {
     }
 
     public StreamType getStream() {
-        return streamType;
+        return stream;
     }
 
     public Communication getCommunication() {
