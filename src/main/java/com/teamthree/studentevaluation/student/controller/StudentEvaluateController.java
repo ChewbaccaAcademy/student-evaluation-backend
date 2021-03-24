@@ -62,4 +62,9 @@ public class StudentEvaluateController {
         return this.studentEvaluationService.updateStudentEvaluation(bindingResult, evaluationId, studentId, evaluationDto);
     }
 
+    @PreAuthorize("isAuthenticated()")
+    @PutMapping("/{evaluationId}")
+    public void disableEvaluation(@PathVariable Long evaluationId) {
+        this.studentEvaluationService.disableEvaluation(evaluationId);
+    }
 }

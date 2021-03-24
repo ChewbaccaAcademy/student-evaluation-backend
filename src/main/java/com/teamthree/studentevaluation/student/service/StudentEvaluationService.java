@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -81,7 +80,7 @@ public class StudentEvaluationService {
         List<Student> students = this.studentRepository.findAll();
         return this.evaluationRepository.findByUser(user).orElseThrow(UserNotFoundException::new).stream()
                 .map(evaluation -> new GetUserEvaluationDto(
-                        students.stream().filter(s -> s.getId().equals(evaluation.getStudentId())).collect(Collectors.toList()).get(0),
+                        students.stream().filter(s -> s.getId() == evaluation.getStudentId()).collect(Collectors.toList()).get(0),
                         new GetEvaluationDto(evaluation, user)
                 )).collect(Collectors.toList());
     }
@@ -175,5 +174,23 @@ public class StudentEvaluationService {
         } else {
             throw new InvalidStudentFormException("Invalid evaluation form values.");
         }
+    }
+
+    public void disableEvaluation(Long evaluationId) {
+        Evaluation evaluation = this.evaluationRepository.findById(evaluationId).orElseThrow(EvaluationNotFoundException::new);
+        Student student = this.studentRepository.findById(evaluation.getStudentId()).get();
+        User user = this.userRepository.findById(evaluation.getUserId()).get();
+
+        this.evaluationRepository.save(new Evaluation.EvaluationBuilder()
+                .setId(evaluation.getId())
+                .setStudent(student)
+                .setUser(user)
+                .setIsActive(false)
+                .setEvaluation(evaluation.getEvaluation())
+                .setComment(evaluation.getComment())
+                .setStream(evaluation.getStream())
+                .setDirection(evaluation.getDirection())
+                .setLearnAbility(evaluation.getLearnAbility())
+                .setCommunication(evaluation.getCommunication()).build());
     }
 }
