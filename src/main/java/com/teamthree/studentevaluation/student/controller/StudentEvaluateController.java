@@ -67,4 +67,10 @@ public class StudentEvaluateController {
     public void disableEvaluation(@PathVariable Long evaluationId) {
         this.studentEvaluationService.disableEvaluation(evaluationId);
     }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/single/{evaluationId}")
+    public void getSingleEvaluationById(@PathVariable Long evaluationId) {
+        this.studentEvaluationService.getEvaluationById(evaluationId);
+    }
 }
