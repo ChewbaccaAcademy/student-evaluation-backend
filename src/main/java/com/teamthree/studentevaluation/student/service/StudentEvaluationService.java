@@ -68,7 +68,7 @@ public class StudentEvaluationService {
         return this.evaluationRepository.findByUser(user).orElseThrow(UserNotFoundException::new).stream()
                 .filter(item -> !item.isActive() && JwtUtil.isRequestUserAdmin() || item.isActive())
                 .map(evaluation -> new GetUserEvaluationDto(
-                        students.stream().filter(s -> s.getId().equals(evaluation.getStudentId()))
+                        students.stream().filter(item -> item.getId().equals(evaluation.getStudentId()))
                                 .collect(Collectors.toList()).get(0),
                         new GetEvaluationDto(evaluation, user)
                 )).collect(Collectors.toList());
@@ -81,7 +81,7 @@ public class StudentEvaluationService {
         return evaluations.stream()
                 .filter(item -> !item.isActive() && JwtUtil.isRequestUserAdmin() || item.isActive())
                 .map(evaluation -> {
-                    User evaluationUser = users.stream().filter(x -> x.getId().equals(evaluation.getUserId())).findFirst().orElse(null);
+                    User evaluationUser = users.stream().filter(item -> item.getId().equals(evaluation.getUserId())).findFirst().orElse(null);
                     return new GetEvaluationDto(evaluation, evaluationUser);
                 }).collect(Collectors.toList());
     }
@@ -157,7 +157,7 @@ public class StudentEvaluationService {
 
     public GetEvaluationDto getEvaluationById(Long id) {
         Evaluation evaluation = this.evaluationRepository.findById(id)
-                .filter(e -> !e.isActive() && JwtUtil.isRequestUserAdmin() || e.isActive())
+                .filter(item -> !item.isActive() && JwtUtil.isRequestUserAdmin() || item.isActive())
                 .orElseThrow(EvaluationNotFoundException::new);
         User user = this.userRepository.findById(evaluation.getUserId()).orElse(null);
 

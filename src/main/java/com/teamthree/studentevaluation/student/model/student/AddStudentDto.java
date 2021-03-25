@@ -27,7 +27,7 @@ public class AddStudentDto {
     @Nullable
     private final String comment;
 
-    public AddStudentDto(Boolean isActive, String name, String lastname, String university, String comment) {
+    public AddStudentDto(Boolean isActive, String name, String lastname, @Nullable String university, @Nullable String comment) {
         this.isActive = isActive;
         this.name = name;
         this.lastname = lastname;
