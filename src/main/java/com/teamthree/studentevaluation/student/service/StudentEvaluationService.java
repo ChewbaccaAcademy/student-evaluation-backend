@@ -159,7 +159,7 @@ public class StudentEvaluationService {
         Evaluation evaluation = this.evaluationRepository.findById(id)
                 .filter(e -> !e.isActive() && JwtUtil.isRequestUserAdmin() || e.isActive())
                 .orElseThrow(EvaluationNotFoundException::new);
-        User user = this.userRepository.findById(evaluation.getUserId()).orElseThrow(UserNotFoundException::new);
+        User user = this.userRepository.findById(evaluation.getUserId()).orElse(null);
 
         return new GetEvaluationDto(evaluation, user);
     }

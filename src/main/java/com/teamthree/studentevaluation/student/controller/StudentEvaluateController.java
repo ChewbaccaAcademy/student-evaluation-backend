@@ -70,7 +70,7 @@ public class StudentEvaluateController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/single/{evaluationId}")
-    public void getSingleEvaluationById(@PathVariable Long evaluationId) {
-        this.studentEvaluationService.getEvaluationById(evaluationId);
+    public GetEvaluationDto getSingleEvaluationById(@PathVariable Long evaluationId) {
+        return this.studentEvaluationService.getEvaluationById(evaluationId);
     }
 }
