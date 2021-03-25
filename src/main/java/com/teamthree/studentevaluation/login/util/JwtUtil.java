@@ -5,12 +5,15 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class JwtUtil {
@@ -55,4 +58,13 @@ public class JwtUtil {
         return (email.equals(userDetails.getEmail()) && !isTokenExpired(token));
     }
 
+    public static boolean isRequestUserAdmin() {
+        return ((LoginUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList()).contains("ADMIN");
+    }
+
+    public static Long getAuthenticatedUserId() {
+        return ((LoginUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+    }
 }

@@ -1,5 +1,6 @@
 package com.teamthree.studentevaluation.student.service;
 
+import com.teamthree.studentevaluation.login.util.JwtUtil;
 import com.teamthree.studentevaluation.student.entity.Evaluation;
 import com.teamthree.studentevaluation.student.entity.Image;
 import com.teamthree.studentevaluation.student.entity.Student;
@@ -15,6 +16,7 @@ import com.teamthree.studentevaluation.student.repository.StudentRepository;
 import com.teamthree.studentevaluation.student.validators.ImageFormatValidator;
 import com.teamthree.studentevaluation.student.validators.StudentValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,31 +45,35 @@ public class StudentService {
     }
 
     public List<GetStudentWithAverageDto> getAllStudent() {
-        List<Student> students = this.studentRepository.findAll();
+        List<Student> students = this.studentRepository.findAll().stream()
+                .filter(item -> !item.isActive() && JwtUtil.isRequestUserAdmin() || item.isActive())
+                .collect(Collectors.toList());
         students.forEach(student -> {
             if (student.getImage() != null)
                 student.getImage().decompress();
         });
 
         List<Evaluation> evaluations = this.evaluationRepository.findAll();
-
         return students.stream()
-                .map(s -> new GetStudentWithAverageDto(
-                        s.getId(),
-                        s.isActive(),
-                        s.getName(),
-                        s.getLastname(),
-                        s.getUniversity(),
-                        s.getComment(),
-                        s.getImage(),
-                        evaluations.stream().filter(x -> x.getStudentId() == s.getId())
+                .map(student -> new GetStudentWithAverageDto(
+                        student.getId(),
+                        student.isActive(),
+                        student.getName(),
+                        student.getLastname(),
+                        student.getUniversity(),
+                        student.getComment(),
+                        student.getImage(),
+                        evaluations.stream()
+                                .filter(evaluation -> evaluation.getStudentId() == student.getId())
                                 .collect(EvaluationAverager::new, EvaluationAverager::acceptEvaluation, EvaluationAverager::combine).average()
                 ))
                 .collect(Collectors.toList());
     }
 
     public GetStudentWithAverageDto getStudentById(Long id) {
-        Student student = this.studentRepository.findById(id).orElseThrow(StudentNotFoundException::new);
+        Student student = this.studentRepository.findById(id)
+                .filter(item -> !item.isActive() && JwtUtil.isRequestUserAdmin() || item.isActive())
+                .orElseThrow(StudentNotFoundException::new);
         if (student.getImage() != null) {
             student.getImage().decompress();
         }
@@ -86,6 +92,9 @@ public class StudentService {
     }
 
     public Student addStudent(AddStudentDto studentDto, MultipartFile imageFile) {
+        if (JwtUtil.isRequestUserAdmin()) {
+            throw new AuthorizationServiceException("Only administrator can add student.");
+        }
         this.studentValidator.validateStudentToAdd(studentDto.getName(), studentDto.getLastname());
         Image newImage = null;
 
@@ -110,7 +119,12 @@ public class StudentService {
     }
 
     public Student updateStudent(Long id, UpdateStudentDto studentDto, MultipartFile imageFile) {
-        Student student = this.studentRepository.findById(id).orElseThrow(StudentNotFoundException::new);
+        if (JwtUtil.isRequestUserAdmin()) {
+            throw new AuthorizationServiceException("Only administrator can update student.");
+        }
+        Student student = this.studentRepository.findById(id)
+                .filter(item -> !item.isActive() && JwtUtil.isRequestUserAdmin() || item.isActive())
+                .orElseThrow(StudentNotFoundException::new);
         this.studentValidator.validateStudentToUpdate(id, studentDto);
         Image newImage = student.getImage();
 
