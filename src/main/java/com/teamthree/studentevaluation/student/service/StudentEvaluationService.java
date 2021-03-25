@@ -78,6 +78,11 @@ public class StudentEvaluationService {
         Long userId = ((LoginUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
         User user = this.userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         List<Student> students = this.studentRepository.findAll();
+        students.forEach(item -> {
+            if (item.getImage() != null) {
+                item.getImage().decompress();
+            }
+        });
         return this.evaluationRepository.findByUser(user).orElseThrow(UserNotFoundException::new).stream()
                 .map(evaluation -> new GetUserEvaluationDto(
                         students.stream().filter(s -> s.getId().equals(evaluation.getStudentId())).collect(Collectors.toList()).get(0),

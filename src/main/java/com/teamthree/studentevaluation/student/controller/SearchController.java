@@ -23,7 +23,7 @@ public class SearchController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("{value}")
-    public List<Student> getStudentById(@PathVariable @Size(min = 3, max = 256) String value) {
+    public List<Student> getStudentById(@PathVariable @Size(min = 3, max = 512) String value) {
         return this.searchStudentService.getStudentsByName(value);
     }
 
