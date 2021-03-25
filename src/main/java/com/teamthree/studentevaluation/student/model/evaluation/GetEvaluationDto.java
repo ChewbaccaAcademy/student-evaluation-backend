@@ -6,6 +6,7 @@ import com.teamthree.studentevaluation.user.entity.User;
 
 import java.sql.Timestamp;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class GetEvaluationDto {
 
     private final Long id;
