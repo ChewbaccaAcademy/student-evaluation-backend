@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 @Service
 public class SearchStudentService {
 
+    private static final String SPACE = " ";
     private final StudentRepository studentRepository;
 
     @Autowired
@@ -23,17 +24,17 @@ public class SearchStudentService {
 
     public List<Student> getStudentsByValue(String value) {
         String searchMessage = value.toLowerCase(Locale.ROOT);
-        String[] valueArray = value.split(" ");
-        List<Student> studentList = this.studentRepository.findAll().stream()
+        String[] values = value.split(SPACE);
+        List<Student> students = this.studentRepository.findAll().stream()
                 .filter(item -> !item.isActive() && JwtUtil.isRequestUserAdmin() || item.isActive())
-                .filter(s -> ArrayUtils.contains(valueArray, s.getName().toLowerCase()) || ArrayUtils.contains(valueArray, s.getLastname().toLowerCase())
-                        || (s.getName() + " " + s.getLastname()).toLowerCase(Locale.ROOT).contains(searchMessage))
+                .filter(s -> ArrayUtils.contains(values, s.getName().toLowerCase()) || ArrayUtils.contains(values, s.getLastname().toLowerCase())
+                        || (s.getName() + SPACE + s.getLastname()).toLowerCase(Locale.ROOT).contains(searchMessage))
                 .collect(Collectors.toList());
-        studentList.forEach(student -> {
-            if (student.getImage() != null) {
-                student.getImage().decompress();
+        students.forEach(s -> {
+            if (s.getImage() != null) {
+                s.getImage().decompress();
             }
         });
-        return studentList;
+        return students;
     }
 }
