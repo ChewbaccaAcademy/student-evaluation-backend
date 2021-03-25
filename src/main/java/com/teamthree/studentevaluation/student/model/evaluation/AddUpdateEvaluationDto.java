@@ -17,6 +17,7 @@ public class AddUpdateEvaluationDto {
     @Column(name="active")
     private final Boolean isActive;
 
+    @NotNull
     @Enumerated(EnumType.ORDINAL)
     private final StreamType stream;
 
@@ -26,6 +27,7 @@ public class AddUpdateEvaluationDto {
     @Enumerated(EnumType.ORDINAL)
     private final LearnAbility learnAbility;
 
+    @NotNull
     @Enumerated(EnumType.ORDINAL)
     private final Direction direction;
 

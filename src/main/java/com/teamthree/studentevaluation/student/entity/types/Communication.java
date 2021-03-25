@@ -4,7 +4,7 @@ public enum Communication implements Type {
     ACTIVE(0) {
         @Override
         public String toString() {
-            return "Is active";
+            return "Is active, communicative";
         }
     },
     PASSIVE(1) {
@@ -13,13 +13,7 @@ public enum Communication implements Type {
             return "Is passive";
         }
     },
-    COMMUNICATIVE(2) {
-        @Override
-        public String toString() {
-            return "Communicative";
-        }
-    },
-    WRITTEN(3) {
+    WRITTEN(2) {
         @Override
         public String toString() {
             return "Prefers written communication over verbal";

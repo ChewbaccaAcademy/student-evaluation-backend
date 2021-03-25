@@ -23,7 +23,7 @@ public class Evaluation {
     @JsonProperty(value = "isActive")
     private Boolean isActive;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "student_id")
     private Student student;
 
@@ -31,6 +31,7 @@ public class Evaluation {
     @JoinColumn(name = "actor_id", nullable = false)
     private User user;
 
+    @NotNull
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "stream")
     private StreamType stream;
@@ -43,10 +44,12 @@ public class Evaluation {
     @Column(columnDefinition = "smallint")
     private LearnAbility learnAbility;
 
+    @NotNull
     @Enumerated(EnumType.ORDINAL)
     @Column(columnDefinition = "smallint")
     private Direction direction;
 
+    @NotNull
     private Integer evaluation;
 
     @Size(max = 250)
@@ -57,12 +60,12 @@ public class Evaluation {
 
     @PrePersist
     protected void onEvaluation() {
-        this.timestamp = new Timestamp(System.currentTimeMillis());
+        this.timestamp = new Timestamp(System.currentTimeMillis()+7200000);
     }
 
     @PreUpdate
     protected void onUpdate() {
-        this.timestamp = new Timestamp(System.currentTimeMillis());
+        this.timestamp = new Timestamp(System.currentTimeMillis()+7200000);
     }
 
     public Evaluation() {
