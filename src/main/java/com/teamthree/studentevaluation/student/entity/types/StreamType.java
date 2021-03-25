@@ -13,13 +13,13 @@ public enum StreamType implements Type {
             return "BE";
         }
     },
-    QA(2){
+    QA(2) {
         @Override
         public String toString() {
             return "QA";
         }
     },
-    PROJECT(3){
+    PROJECT(3) {
         @Override
         public String toString() {
             return "Project";

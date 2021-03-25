@@ -2,11 +2,11 @@ package com.teamthree.studentevaluation.user.model;
 
 public class GetUserDto {
 
-    private Long id;
+    private final Long id;
 
-    private String username;
+    private final String username;
 
-    private String stream;
+    private final String stream;
 
     public GetUserDto(Long id, String username, String stream) {
         this.id = id;
@@ -18,7 +18,9 @@ public class GetUserDto {
         return id;
     }
 
-    public String getUsername() { return username; }
+    public String getUsername() {
+        return username;
+    }
 
     public String getStream() {
         return stream;

@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 public class UpdateStudentDto {
 
     @Nullable
-    @Column(name="active")
+    @Column(name = "active")
     private final Boolean isActive;
 
     @NotBlank(message = "Student name is mandatory.")

@@ -6,7 +6,9 @@ import com.teamthree.studentevaluation.student.entity.types.LearnAbility;
 import com.teamthree.studentevaluation.student.entity.types.StreamType;
 import org.springframework.lang.Nullable;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Timestamp;
@@ -14,7 +16,7 @@ import java.sql.Timestamp;
 public class AddUpdateEvaluationDto {
 
     @Nullable
-    @Column(name="active")
+    @Column(name = "active")
     private final Boolean isActive;
 
     @NotNull
@@ -40,7 +42,7 @@ public class AddUpdateEvaluationDto {
 
     private final Timestamp timestamp;
 
-    public AddUpdateEvaluationDto(Boolean isActive, StreamType stream, Communication communication, LearnAbility learnAbility, Direction direction, @NotNull Integer evaluation, @Size(max = 250) String comment, Timestamp timestamp) {
+    public AddUpdateEvaluationDto(@Nullable Boolean isActive, StreamType stream, Communication communication, LearnAbility learnAbility, Direction direction, @NotNull Integer evaluation, @Nullable @Size(max = 250) String comment, Timestamp timestamp) {
         this.isActive = isActive;
         this.stream = stream;
         this.communication = communication;
@@ -51,6 +53,7 @@ public class AddUpdateEvaluationDto {
         this.timestamp = timestamp;
     }
 
+    @Nullable
     public Boolean getIsActive() {
         return isActive;
     }
@@ -75,6 +78,7 @@ public class AddUpdateEvaluationDto {
         return evaluation;
     }
 
+    @Nullable
     public String getComment() {
         return comment;
     }

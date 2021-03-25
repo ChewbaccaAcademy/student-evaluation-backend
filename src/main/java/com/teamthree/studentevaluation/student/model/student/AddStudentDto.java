@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 
 public class AddStudentDto {
 
-    @Column(name="active")
+    @Column(name = "active")
     private final Boolean isActive;
 
     @NotNull
