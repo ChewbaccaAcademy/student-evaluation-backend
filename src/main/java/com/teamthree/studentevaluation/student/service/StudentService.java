@@ -94,7 +94,7 @@ public class StudentService {
     }
 
     public Student addStudent(AddStudentDto studentDto, MultipartFile imageFile) {
-        if (JwtUtil.isRequestUserAdmin()) {
+        if (!JwtUtil.isRequestUserAdmin()) {
             throw new AuthorizationServiceException("Only administrator can add student.");
         }
         this.studentValidator.validateStudentToAdd(studentDto.getName(), studentDto.getLastname());
@@ -121,11 +121,10 @@ public class StudentService {
     }
 
     public Student updateStudent(Long id, UpdateStudentDto studentDto, MultipartFile imageFile) {
-        if (JwtUtil.isRequestUserAdmin()) {
+        if (!JwtUtil.isRequestUserAdmin()) {
             throw new AuthorizationServiceException("Only administrator can update student.");
         }
         Student student = this.studentRepository.findById(id)
-                .filter(item -> !item.isActive() && JwtUtil.isRequestUserAdmin() || item.isActive())
                 .orElseThrow(StudentNotFoundException::new);
         this.studentValidator.validateStudentToUpdate(id, studentDto);
         Image newImage = student.getImage();
