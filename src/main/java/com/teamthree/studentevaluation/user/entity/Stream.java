@@ -8,12 +8,12 @@ public enum Stream {
 
     private final Role roleCode;
 
-    public Role getRoleCode() {
-        return roleCode;
-    }
-
     Stream(Role roleCode) {
         this.roleCode = roleCode;
+    }
+
+    public Role getRoleCode() {
+        return roleCode;
     }
 
 }

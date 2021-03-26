@@ -7,16 +7,16 @@ public enum LearnAbility implements Type {
             return "Is able to adapt to changing topics quickly";
         }
     },
-    NORMAL(1) {
-        @Override
-        public String toString() {
-            return "Doesn't understand but asks, tries to learn from mistakes";
-        }
-    },
-    BAD(2) {
+    BAD(1) {
         @Override
         public String toString() {
             return "Doesn't understand and does nothing about it";
+        }
+    },
+    NORMAL(2) {
+        @Override
+        public String toString() {
+            return "Doesn't understand but asks, tries to learn from mistakes";
         }
     };
 

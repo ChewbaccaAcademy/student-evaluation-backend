@@ -89,6 +89,6 @@ public class EvaluationAverager {
     }
 
     private double calculateAverage(MutableDouble count, MutableDouble total) {
-        return count.toDouble() > 0 ? (Math.round((total.toDouble()/count.toDouble())*100.0)/100.0) : 0;
+        return count.toDouble() > 0 ? (Math.round((total.toDouble() / count.toDouble()) * 100.0) / 100.0) : 0;
     }
 }

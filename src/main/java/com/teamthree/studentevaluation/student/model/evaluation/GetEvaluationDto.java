@@ -35,35 +35,19 @@ public class GetEvaluationDto {
 
     private final Timestamp timestamp;
 
-    public GetEvaluationDto(Long id, Boolean isActive, Long studentId, Long userId, String userUsername, String userStream, String stream, Integer communication, Integer learnAbility, Integer direction, Integer evaluation, String comment, Timestamp timestamp) {
-        this.id = id;
-        this.isActive = isActive;
-        this.studentId = studentId;
-        this.userId = userId;
-        this.userUsername = userUsername;
-        this.userStream = userStream;
-        this.stream = stream;
-        this.communication = communication;
-        this.learnAbility = learnAbility;
-        this.direction = direction;
-        this.evaluation = evaluation;
-        this.comment = comment;
-        this.timestamp = timestamp;
-    }
-
     public GetEvaluationDto(Evaluation evaluation, User user) {
         this.id = evaluation.getId();
         this.isActive = evaluation.isActive();
         this.studentId = evaluation.getStudentId();
         this.userId = evaluation.getUserId();
-        this.userUsername = user.getUsername();
+        this.userUsername = (user != null) ? user.getUsername() : null;
         this.userStream = (user != null) ? user.getStream() : null;
-        this.stream = (evaluation.getStream() != null) ? evaluation.getStream().toString() : null;
+        this.stream = evaluation.getStream().toString();
         this.communication = (evaluation.getCommunication() != null) ? evaluation.getCommunication().getValue() : null;
         this.learnAbility = (evaluation.getLearnAbility() != null) ? evaluation.getLearnAbility().getValue() : null;
-        this.direction = (evaluation.getDirection() != null) ? evaluation.getDirection().getValue() : null;
+        this.direction = evaluation.getDirection().getValue();
         this.evaluation = evaluation.getEvaluation();
-        this.comment = (evaluation.getComment() != null) ?  evaluation.getComment() : null;
+        this.comment = evaluation.getComment();
         this.timestamp = evaluation.getTimestamp();
     }
 

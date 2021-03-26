@@ -13,13 +13,11 @@ public class AuthenticationResponse {
     private final long userId;
 
 
-
     public AuthenticationResponse(String jwt, Collection<? extends GrantedAuthority> role, long date, long userId) {
         this.jwt = jwt;
         this.role = role.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
         this.date = date;
         this.userId = userId;
-
     }
 
     public String getJwt() {

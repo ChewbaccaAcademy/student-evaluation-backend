@@ -2,11 +2,16 @@ package com.teamthree.studentevaluation.student.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.teamthree.studentevaluation.student.entity.types.*;
+import com.teamthree.studentevaluation.student.entity.types.Communication;
+import com.teamthree.studentevaluation.student.entity.types.Direction;
+import com.teamthree.studentevaluation.student.entity.types.LearnAbility;
+import com.teamthree.studentevaluation.student.entity.types.StreamType;
 import com.teamthree.studentevaluation.user.entity.User;
 import org.springframework.beans.factory.annotation.Value;
+
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 
 @Entity
@@ -19,11 +24,11 @@ public class Evaluation {
     private Long id;
 
     @Value("${is.active:true}")
-    @Column(name = "active", columnDefinition="boolean default true")
+    @Column(name = "active", columnDefinition = "boolean default true")
     @JsonProperty(value = "isActive")
     private Boolean isActive;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "student_id")
     private Student student;
 
@@ -31,6 +36,7 @@ public class Evaluation {
     @JoinColumn(name = "actor_id", nullable = false)
     private User user;
 
+    @NotNull
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "stream")
     private StreamType stream;
@@ -43,10 +49,12 @@ public class Evaluation {
     @Column(columnDefinition = "smallint")
     private LearnAbility learnAbility;
 
+    @NotNull
     @Enumerated(EnumType.ORDINAL)
     @Column(columnDefinition = "smallint")
     private Direction direction;
 
+    @NotNull
     private Integer evaluation;
 
     @Size(max = 250)
@@ -55,17 +63,75 @@ public class Evaluation {
     @Column(name = "timestamp", nullable = false, insertable = false, columnDefinition = "timestamp default current_timestamp")
     private Timestamp timestamp;
 
+    public Evaluation() {
+    }
+
+    private Evaluation(EvaluationBuilder builder) {
+        this.id = builder.id;
+        this.isActive = builder.isActive;
+        this.student = builder.student;
+        this.user = builder.user;
+        this.stream = builder.stream;
+        this.communication = builder.communication;
+        this.learnAbility = builder.learnAbility;
+        this.direction = builder.direction;
+        this.evaluation = builder.evaluation;
+        this.comment = builder.comment;
+    }
+
     @PrePersist
     protected void onEvaluation() {
-        this.timestamp = new Timestamp(System.currentTimeMillis());
+        this.timestamp = new Timestamp(System.currentTimeMillis() + 7200000);
     }
 
     @PreUpdate
     protected void onUpdate() {
-        this.timestamp = new Timestamp(System.currentTimeMillis());
+        this.timestamp = new Timestamp(System.currentTimeMillis() + 7200000);
     }
 
-    public Evaluation() {
+    public Long getId() {
+        return id;
+    }
+
+    @JsonProperty("isActive")
+    public Boolean isActive() {
+        return isActive;
+    }
+
+    public Long getStudentId() {
+        return student.getId();
+    }
+
+    public Long getUserId() {
+        return user.getId();
+    }
+
+    public StreamType getStream() {
+        return stream;
+    }
+
+    public Communication getCommunication() {
+        return communication;
+    }
+
+    public LearnAbility getLearnAbility() {
+        return learnAbility;
+    }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public Integer getEvaluation() {
+        return evaluation;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public Timestamp getTimestamp() {
+        return timestamp;
     }
 
     public static class EvaluationBuilder {
@@ -141,63 +207,5 @@ public class Evaluation {
         public Evaluation build() {
             return new Evaluation(this);
         }
-    }
-
-    private Evaluation(EvaluationBuilder builder) {
-        this.id = builder.id;
-        this.isActive = builder.isActive;
-        this.student = builder.student;
-        this.user = builder.user;
-        this.stream = builder.stream;
-        this.communication = builder.communication;
-        this.learnAbility = builder.learnAbility;
-        this.direction = builder.direction;
-        this.evaluation = builder.evaluation;
-        this.comment = builder.comment;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    @JsonProperty("isActive")
-    public Boolean isActive() {
-        return isActive;
-    }
-
-    public Long getStudentId() {
-        return student.getId();
-    }
-
-    public Long getUserId() {
-        return user.getId();
-    }
-
-    public StreamType getStream() {
-        return stream;
-    }
-
-    public Communication getCommunication() {
-        return communication;
-    }
-
-    public LearnAbility getLearnAbility() {
-        return learnAbility;
-    }
-
-    public Direction getDirection() {
-        return direction;
-    }
-
-    public Integer getEvaluation() {
-        return evaluation;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public Timestamp getTimestamp() {
-        return timestamp;
     }
 }

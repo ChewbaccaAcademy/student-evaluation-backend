@@ -64,7 +64,7 @@ public class StudentService {
                         student.getComment(),
                         student.getImage(),
                         evaluations.stream()
-                                .filter(evaluation -> evaluation.getStudentId() == student.getId())
+                                .filter(item -> item.isActive() && item.getStudentId().equals(student.getId()))
                                 .collect(EvaluationAverager::new, EvaluationAverager::acceptEvaluation, EvaluationAverager::combine).average()
                 ))
                 .collect(Collectors.toList());
@@ -87,7 +87,9 @@ public class StudentService {
                 student.getUniversity(),
                 student.getComment(),
                 student.getImage(),
-                evaluations.stream().collect(EvaluationAverager::new, EvaluationAverager::acceptEvaluation, EvaluationAverager::combine).average()
+                evaluations.stream()
+                        .filter(Evaluation::isActive)
+                        .collect(EvaluationAverager::new, EvaluationAverager::acceptEvaluation, EvaluationAverager::combine).average()
         );
     }
 

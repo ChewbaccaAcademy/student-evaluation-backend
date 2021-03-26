@@ -43,21 +43,8 @@ public class StudentEvaluationService {
         return this.evaluationRepository.findAll().stream()
                 .filter(item -> !item.isActive() && JwtUtil.isRequestUserAdmin() || item.isActive())
                 .map(evaluation -> {
-                    User evaluationUser = users.stream().filter(x -> x.getId().equals(evaluation.getUserId())).findFirst().get();
-                    return new GetEvaluationDto(
-                            evaluation.getId(),
-                            evaluation.isActive(),
-                            evaluation.getStudentId(),
-                            evaluation.getUserId(),
-                            evaluationUser.getUsername(),
-                            evaluationUser.getStream(),
-                            evaluation.getStream().toString(),
-                            (evaluation.getCommunication() != null) ? evaluation.getCommunication().getValue() : null,
-                            (evaluation.getLearnAbility() != null) ? evaluation.getLearnAbility().getValue() : null,
-                            evaluation.getDirection().getValue(),
-                            evaluation.getEvaluation(),
-                            evaluation.getComment(),
-                            evaluation.getTimestamp());
+                    User evaluationUser = users.stream().filter(x -> x.getId().equals(evaluation.getUserId())).findFirst().orElse(null);
+                    return new GetEvaluationDto(evaluation, evaluationUser);
                 }).collect(Collectors.toList());
     }
 
@@ -65,20 +52,8 @@ public class StudentEvaluationService {
         User user = this.userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         return this.evaluationRepository.findByUser(user).orElseThrow(UserNotFoundException::new).stream()
                 .filter(item -> !item.isActive() && JwtUtil.isRequestUserAdmin() || item.isActive())
-                .map(evaluation -> new GetEvaluationDto(
-                        evaluation.getId(),
-                        evaluation.isActive(),
-                        evaluation.getStudentId(),
-                        evaluation.getUserId(),
-                        user.getUsername(),
-                        user.getStream(),
-                        evaluation.getStream().toString(),
-                        (evaluation.getCommunication() != null) ? evaluation.getCommunication().getValue() : null,
-                        (evaluation.getLearnAbility() != null) ? evaluation.getLearnAbility().getValue() : null,
-                        evaluation.getDirection().getValue(),
-                        evaluation.getEvaluation(),
-                        evaluation.getComment(),
-                        evaluation.getTimestamp())).collect(Collectors.toList());
+                .map(evaluation -> new GetEvaluationDto(evaluation, user))
+                .collect(Collectors.toList());
     }
 
     public List<GetUserEvaluationDto> getUserEvaluations() {
@@ -93,7 +68,8 @@ public class StudentEvaluationService {
         return this.evaluationRepository.findByUser(user).orElseThrow(UserNotFoundException::new).stream()
                 .filter(item -> !item.isActive() && JwtUtil.isRequestUserAdmin() || item.isActive())
                 .map(evaluation -> new GetUserEvaluationDto(
-                        students.stream().filter(s -> s.getId().equals(evaluation.getStudentId())).collect(Collectors.toList()).get(0),
+                        students.stream().filter(item -> item.getId().equals(evaluation.getStudentId()))
+                                .collect(Collectors.toList()).get(0),
                         new GetEvaluationDto(evaluation, user)
                 )).collect(Collectors.toList());
     }
@@ -102,25 +78,11 @@ public class StudentEvaluationService {
         Student foundStudent = this.studentRepository.findById(studentId).orElseThrow(StudentNotFoundException::new);
         List<Evaluation> evaluations = this.evaluationRepository.findByStudent(foundStudent).orElseThrow(StudentNotFoundException::new);
         List<User> users = this.userRepository.findAll();
-
         return evaluations.stream()
                 .filter(item -> !item.isActive() && JwtUtil.isRequestUserAdmin() || item.isActive())
                 .map(evaluation -> {
-                    User evaluationUser = users.stream().filter(x -> x.getId().equals(evaluation.getUserId())).findFirst().get();
-                    return new GetEvaluationDto(
-                            evaluation.getId(),
-                            evaluation.isActive(),
-                            evaluation.getStudentId(),
-                            evaluation.getUserId(),
-                            evaluationUser.getUsername(),
-                            evaluationUser.getStream(),
-                            evaluation.getStream().toString(),
-                            (evaluation.getCommunication() != null) ? evaluation.getCommunication().getValue() : null,
-                            (evaluation.getLearnAbility() != null) ? evaluation.getLearnAbility().getValue() : null,
-                            evaluation.getDirection().getValue(),
-                            evaluation.getEvaluation(),
-                            evaluation.getComment(),
-                            evaluation.getTimestamp());
+                    User evaluationUser = users.stream().filter(item -> item.getId().equals(evaluation.getUserId())).findFirst().orElse(null);
+                    return new GetEvaluationDto(evaluation, evaluationUser);
                 }).collect(Collectors.toList());
     }
 
@@ -138,20 +100,7 @@ public class StudentEvaluationService {
                     .setEvaluation(evaluationDto.getEvaluation())
                     .setComment(evaluationDto.getComment())
                     .setIsActive(true).build());
-
-            return new GetEvaluationDto(newEvaluation.getId(),
-                    newEvaluation.isActive(),
-                    newEvaluation.getStudentId(),
-                    newEvaluation.getUserId(),
-                    user.getUsername(),
-                    user.getStream(),
-                    newEvaluation.getStream().toString(),
-                    (newEvaluation.getCommunication() != null) ? newEvaluation.getCommunication().getValue() : null,
-                    (newEvaluation.getLearnAbility() != null) ? newEvaluation.getLearnAbility().getValue() : null,
-                    newEvaluation.getDirection().getValue(),
-                    newEvaluation.getEvaluation(),
-                    newEvaluation.getComment(),
-                    newEvaluation.getTimestamp());
+            return new GetEvaluationDto(newEvaluation, user);
         } else {
             throw new InvalidStudentFormException("Invalid evaluation form values.");
         }
@@ -178,19 +127,7 @@ public class StudentEvaluationService {
                     .setId(evaluationId)
                     .setIsActive((evaluationDto.getIsActive() != null) ? evaluationDto.getIsActive() : evaluation.isActive()).build());
 
-            return new GetEvaluationDto(newEvaluation.getId(),
-                    newEvaluation.isActive(),
-                    newEvaluation.getStudentId(),
-                    newEvaluation.getUserId(),
-                    user.getUsername(),
-                    user.getStream(),
-                    newEvaluation.getStream().toString(),
-                    (newEvaluation.getCommunication() != null) ? newEvaluation.getCommunication().getValue() : null,
-                    newEvaluation.getDirection().getValue(),
-                    (newEvaluation.getLearnAbility() != null) ? newEvaluation.getLearnAbility().getValue() : null,
-                    newEvaluation.getEvaluation(),
-                    newEvaluation.getComment(),
-                    newEvaluation.getTimestamp());
+            return new GetEvaluationDto(newEvaluation, user);
         } else {
             throw new InvalidStudentFormException("Invalid evaluation form values.");
         }
@@ -198,8 +135,8 @@ public class StudentEvaluationService {
 
     public void disableEvaluation(Long evaluationId) {
         Evaluation evaluation = this.evaluationRepository.findById(evaluationId).orElseThrow(EvaluationNotFoundException::new);
-        Student student = this.studentRepository.findById(evaluation.getStudentId()).get();
-        User user = this.userRepository.findById(evaluation.getUserId()).get();
+        Student student = this.studentRepository.findById(evaluation.getStudentId()).orElse(null);
+        User user = this.userRepository.findById(evaluation.getUserId()).orElse(null);
 
         if (JwtUtil.isRequestUserAdmin() || JwtUtil.getAuthenticatedUserId().equals(evaluation.getUserId())) {
             this.evaluationRepository.save(new Evaluation.EvaluationBuilder()
@@ -220,24 +157,10 @@ public class StudentEvaluationService {
 
     public GetEvaluationDto getEvaluationById(Long id) {
         Evaluation evaluation = this.evaluationRepository.findById(id)
-                .filter(e -> !e.isActive() && JwtUtil.isRequestUserAdmin() || e.isActive())
+                .filter(item -> !item.isActive() && JwtUtil.isRequestUserAdmin() || item.isActive())
                 .orElseThrow(EvaluationNotFoundException::new);
+        User user = this.userRepository.findById(evaluation.getUserId()).orElse(null);
 
-        User user = this.userRepository.findById(evaluation.getUserId()).orElseThrow(UserNotFoundException::new);
-
-        return new GetEvaluationDto(
-                evaluation.getId(),
-                evaluation.isActive(),
-                evaluation.getStudentId(),
-                evaluation.getUserId(),
-                user.getUsername(),
-                user.getStream(),
-                evaluation.getStream().toString(),
-                (evaluation.getCommunication() != null) ? evaluation.getCommunication().getValue() : null,
-                (evaluation.getLearnAbility() != null) ? evaluation.getLearnAbility().getValue() : null,
-                evaluation.getDirection().getValue(),
-                evaluation.getEvaluation(),
-                evaluation.getComment(),
-                evaluation.getTimestamp());
+        return new GetEvaluationDto(evaluation, user);
     }
 }

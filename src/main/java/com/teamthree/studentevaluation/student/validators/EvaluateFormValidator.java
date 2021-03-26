@@ -5,7 +5,7 @@ import com.teamthree.studentevaluation.student.model.evaluation.AddUpdateEvaluat
 import org.springframework.stereotype.Component;
 
 @Component
-public class EvaluateFormValidator extends  Validator<AddUpdateEvaluationDto>{
+public class EvaluateFormValidator extends Validator<AddUpdateEvaluationDto> {
 
     @Override
     public void validate(AddUpdateEvaluationDto attribute, String message) {
