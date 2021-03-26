@@ -23,12 +23,13 @@ public class SearchStudentService {
     }
 
     public List<Student> getStudentsByValue(String value) {
-        String searchMessage = value.toLowerCase(Locale.ROOT);
-        String[] values = value.split(SPACE);
+        String searchMessage = value.toLowerCase();
+        String[] values = value.toLowerCase().split(SPACE);
         List<Student> students = this.studentRepository.findAll().stream()
                 .filter(item -> !item.isActive() && JwtUtil.isRequestUserAdmin() || item.isActive())
-                .filter(item -> ArrayUtils.contains(values, item.getName().toLowerCase()) || ArrayUtils.contains(values, item.getLastname().toLowerCase())
-                        || (item.getName() + SPACE + item.getLastname()).toLowerCase(Locale.ROOT).contains(searchMessage))
+                .filter(item -> ArrayUtils.contains(values, item.getName().toLowerCase()) && ArrayUtils.contains(values, item.getLastname().toLowerCase())
+                        || (item.getName() + SPACE + item.getLastname()).toLowerCase().contains(searchMessage)
+                        || (item.getLastname() + SPACE + item.getName()).toLowerCase().contains(searchMessage))
                 .collect(Collectors.toList());
         students.forEach(s -> {
             if (s.getImage() != null) {
