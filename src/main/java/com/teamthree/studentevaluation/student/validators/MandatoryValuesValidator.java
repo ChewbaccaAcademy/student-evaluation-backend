@@ -13,7 +13,7 @@ public class MandatoryValuesValidator extends Validator<String> {
 
     @Override
     public void validate(String attribute, String message) throws RuntimeException {
-        if (!attribute.chars().allMatch(Character::isLetter)) {
+        if (!attribute.chars().allMatch(character -> Character.isLetter(character) || character == '-')) {
             throw new InvalidStudentFormException(message);
         }
     }

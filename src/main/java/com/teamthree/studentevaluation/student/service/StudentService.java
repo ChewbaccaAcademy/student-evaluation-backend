@@ -54,7 +54,7 @@ public class StudentService {
         });
 
         List<Evaluation> evaluations = this.evaluationRepository.findAll();
-        return students.stream()
+        List<GetStudentWithAverageDto> foundStudents = students.stream()
                 .map(student -> new GetStudentWithAverageDto(
                         student.getId(),
                         student.isActive(),
@@ -68,6 +68,8 @@ public class StudentService {
                                 .collect(EvaluationAverager::new, EvaluationAverager::acceptEvaluation, EvaluationAverager::combine).average()
                 ))
                 .collect(Collectors.toList());
+        Collections.reverse(foundStudents);
+        return foundStudents;
     }
 
     public GetStudentWithAverageDto getStudentById(Long id) {
