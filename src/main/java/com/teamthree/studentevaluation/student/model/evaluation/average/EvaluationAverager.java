@@ -50,11 +50,11 @@ public class EvaluationAverager {
         }
         if (other.getStream() != null) {
             if (StreamType.FE.toString().equals(other.getStream().toString())) {
-                beStreamEvaluationCount.increment();
-                beStreamEvaluationTotal = new MutableDouble(beStreamEvaluationTotal.toDouble() + other.getEvaluation());
-            } else if (StreamType.BE.toString().equals(other.getStream().toString())) {
                 feStreamEvaluationCount.increment();
                 feStreamEvaluationTotal = new MutableDouble(feStreamEvaluationTotal.toDouble() + other.getEvaluation());
+            } else if (StreamType.BE.toString().equals(other.getStream().toString())) {
+                beStreamEvaluationCount.increment();
+                beStreamEvaluationTotal = new MutableDouble(beStreamEvaluationTotal.toDouble() + other.getEvaluation());
             } else if (StreamType.QA.toString().equals(other.getStream().toString())) {
                 qaStreamEvaluationCount.increment();
                 qaStreamEvaluationTotal = new MutableDouble(qaStreamEvaluationTotal.toDouble() + other.getEvaluation());
