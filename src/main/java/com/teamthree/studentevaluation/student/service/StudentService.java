@@ -4,6 +4,7 @@ import com.teamthree.studentevaluation.login.util.JwtUtil;
 import com.teamthree.studentevaluation.student.entity.Evaluation;
 import com.teamthree.studentevaluation.student.entity.Image;
 import com.teamthree.studentevaluation.student.entity.Student;
+import com.teamthree.studentevaluation.student.exceptions.EvaluationNotFoundException;
 import com.teamthree.studentevaluation.student.exceptions.InvalidStudentFormException;
 import com.teamthree.studentevaluation.student.exceptions.StudentNotFoundException;
 import com.teamthree.studentevaluation.student.model.evaluation.average.EvaluationAverager;
@@ -15,6 +16,7 @@ import com.teamthree.studentevaluation.student.repository.ImageRepository;
 import com.teamthree.studentevaluation.student.repository.StudentRepository;
 import com.teamthree.studentevaluation.student.validators.ImageFormatValidator;
 import com.teamthree.studentevaluation.student.validators.StudentValidator;
+import com.teamthree.studentevaluation.user.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.stereotype.Service;
@@ -152,6 +154,22 @@ public class StudentService {
                 studentDto.getUniversity(),
                 studentDto.getComment(),
                 newImage));
+    }
+
+    public void disableStudent(Long studentId) {
+        if (!JwtUtil.isRequestUserAdmin()) {
+            throw new AuthorizationServiceException("Only administrator can update student.");
+        }
+        Student student = this.studentRepository.findById(studentId).orElseThrow(StudentNotFoundException::new);
+
+        this.studentRepository.save(new Student(
+                student.getId(),
+                false,
+                student.getName(),
+                student.getLastname(),
+                student.getUniversity(),
+                student.getComment(),
+                student.getImage()));
     }
 
 }

@@ -58,4 +58,10 @@ public class StudentController {
         throw new InvalidStudentFormException("Invalid student form.");
     }
 
+    @PreAuthorize("isAuthenticated() and hasAuthority('ADMIN')")
+    @PutMapping("/disable/{id}")
+    public void disableStudent(@PathVariable Long id) {
+        this.studentService.disableStudent(id);
+    }
+
 }
