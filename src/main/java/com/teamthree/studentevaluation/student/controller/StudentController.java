@@ -1,7 +1,6 @@
 package com.teamthree.studentevaluation.student.controller;
 
 import com.teamthree.studentevaluation.student.entity.Student;
-import com.teamthree.studentevaluation.student.exceptions.InvalidStudentFormException;
 import com.teamthree.studentevaluation.student.model.student.AddStudentDto;
 import com.teamthree.studentevaluation.student.model.student.GetStudentWithAverageDto;
 import com.teamthree.studentevaluation.student.model.student.UpdateStudentDto;
@@ -43,19 +42,19 @@ public class StudentController {
     @PreAuthorize("isAuthenticated() and hasAuthority('ADMIN')")
     @PostMapping
     public Student addStudent(@RequestPart("student") @Valid AddStudentDto studentDto, BindingResult bindingResult, @RequestPart("image") @Nullable MultipartFile imageFile) {
-        if (!bindingResult.hasErrors()) {
-            return this.studentService.addStudent(studentDto, imageFile);
-        }
-        throw new InvalidStudentFormException("Invalid student form.");
+        return this.studentService.addStudent(bindingResult, studentDto, imageFile);
     }
 
     @PreAuthorize("isAuthenticated() and hasAuthority('ADMIN')")
     @PutMapping("{id}")
     public Student updateStudent(@PathVariable Long id, @RequestPart("student") @Valid UpdateStudentDto studentDto, BindingResult bindingResult, @RequestPart("image") @Nullable MultipartFile imageFile) {
-        if (!bindingResult.hasErrors()) {
-            return this.studentService.updateStudent(id, studentDto, imageFile);
-        }
-        throw new InvalidStudentFormException("Invalid student form.");
+        return this.studentService.updateStudent(bindingResult, id, studentDto, imageFile);
+    }
+
+    @PreAuthorize("isAuthenticated() and hasAuthority('ADMIN')")
+    @PutMapping("/disable/{id}")
+    public void disableStudent(@PathVariable Long id) {
+        this.studentService.disableStudent(id);
     }
 
 }

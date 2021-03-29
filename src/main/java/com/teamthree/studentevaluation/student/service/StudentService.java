@@ -16,8 +16,8 @@ import com.teamthree.studentevaluation.student.repository.StudentRepository;
 import com.teamthree.studentevaluation.student.validators.ImageFormatValidator;
 import com.teamthree.studentevaluation.student.validators.StudentValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -46,7 +46,7 @@ public class StudentService {
 
     public List<GetStudentWithAverageDto> getAllStudent() {
         List<Student> students = this.studentRepository.findAll().stream()
-                .filter(item -> !item.isActive() && JwtUtil.isRequestUserAdmin() || item.isActive())
+                .filter(Student::isActive)
                 .collect(Collectors.toList());
         students.forEach(student -> {
             if (student.getImage() != null)
@@ -95,10 +95,11 @@ public class StudentService {
         );
     }
 
-    public Student addStudent(AddStudentDto studentDto, MultipartFile imageFile) {
-        if (!JwtUtil.isRequestUserAdmin()) {
-            throw new AuthorizationServiceException("Only administrator can add student.");
+    public Student addStudent(BindingResult bindingResult, AddStudentDto studentDto, MultipartFile imageFile) {
+        if (bindingResult.hasErrors()) {
+            throw new InvalidStudentFormException("Invalid student form.");
         }
+
         this.studentValidator.validateStudentToAdd(studentDto.getName(), studentDto.getLastname());
         Image newImage = null;
 
@@ -122,10 +123,11 @@ public class StudentService {
                 newImage));
     }
 
-    public Student updateStudent(Long id, UpdateStudentDto studentDto, MultipartFile imageFile) {
-        if (!JwtUtil.isRequestUserAdmin()) {
-            throw new AuthorizationServiceException("Only administrator can update student.");
+    public Student updateStudent(BindingResult bindingResult, Long id, UpdateStudentDto studentDto, MultipartFile imageFile) {
+        if (bindingResult.hasErrors()) {
+            throw new InvalidStudentFormException("Invalid student form.");
         }
+
         Student student = this.studentRepository.findById(id)
                 .orElseThrow(StudentNotFoundException::new);
         this.studentValidator.validateStudentToUpdate(id, studentDto);
@@ -152,6 +154,19 @@ public class StudentService {
                 studentDto.getUniversity(),
                 studentDto.getComment(),
                 newImage));
+    }
+
+    public void disableStudent(Long studentId) {
+        Student student = this.studentRepository.findById(studentId).orElseThrow(StudentNotFoundException::new);
+
+        this.studentRepository.save(new Student(
+                student.getId(),
+                false,
+                student.getName(),
+                student.getLastname(),
+                student.getUniversity(),
+                student.getComment(),
+                student.getImage()));
     }
 
 }
