@@ -9,6 +9,7 @@ import com.teamthree.studentevaluation.student.entity.types.StreamType;
 import com.teamthree.studentevaluation.user.entity.User;
 import org.springframework.beans.factory.annotation.Value;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -60,7 +61,7 @@ public class Evaluation {
     @Size(max = 250)
     private String comment;
 
-    @Column(name = "timestamp", nullable = false, insertable = false, columnDefinition = "timestamp default current_timestamp")
+    @Column(name = "timestamp", nullable = false, columnDefinition = "timestamp default current_timestamp")
     private Timestamp timestamp;
 
     public Evaluation() {
@@ -81,12 +82,12 @@ public class Evaluation {
 
     @PrePersist
     protected void onEvaluation() {
-        this.timestamp = new Timestamp(System.currentTimeMillis() + 7200000);
+        this.timestamp = new Timestamp(System.currentTimeMillis() + 10800000);
     }
 
     @PreUpdate
     protected void onUpdate() {
-        this.timestamp = new Timestamp(System.currentTimeMillis() + 7200000);
+        this.timestamp = new Timestamp(System.currentTimeMillis() + 10800000);
     }
 
     public Long getId() {

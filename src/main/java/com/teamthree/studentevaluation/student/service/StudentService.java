@@ -46,7 +46,7 @@ public class StudentService {
 
     public List<GetStudentWithAverageDto> getAllStudent() {
         List<Student> students = this.studentRepository.findAll().stream()
-                .filter(item -> !item.isActive() && JwtUtil.isRequestUserAdmin() || item.isActive())
+                .filter(Student::isActive)
                 .collect(Collectors.toList());
         students.forEach(student -> {
             if (student.getImage() != null)

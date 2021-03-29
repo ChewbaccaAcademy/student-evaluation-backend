@@ -40,20 +40,32 @@ public class StudentEvaluationService {
 
     public List<GetEvaluationDto> getStudentEvaluations() {
         List<User> users = this.userRepository.findAll();
+
         return this.evaluationRepository.findAll().stream()
                 .filter(item -> !item.isActive() && JwtUtil.isRequestUserAdmin() || item.isActive())
                 .map(evaluation -> {
-                    User evaluationUser = users.stream().filter(x -> x.getId().equals(evaluation.getUserId())).findFirst().orElse(null);
+                    User evaluationUser = users.stream().filter(user -> user.getId().equals(evaluation.getUserId())).findFirst().orElse(null);
                     return new GetEvaluationDto(evaluation, evaluationUser);
+                }).sorted((o1, o2) -> {
+                    if (o1.getTimestamp() == null || o2.getTimestamp() == null) {
+                        return 0;
+                    }
+                    return o2.getTimestamp().compareTo(o1.getTimestamp());
                 }).collect(Collectors.toList());
     }
 
     public List<GetEvaluationDto> getUserStudentEvaluations(Long userId) {
         User user = this.userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+
         return this.evaluationRepository.findByUser(user).orElseThrow(UserNotFoundException::new).stream()
                 .filter(item -> !item.isActive() && JwtUtil.isRequestUserAdmin() || item.isActive())
                 .map(evaluation -> new GetEvaluationDto(evaluation, user))
-                .collect(Collectors.toList());
+                .sorted((o1, o2) -> {
+                    if (o1.getTimestamp() == null || o2.getTimestamp() == null) {
+                        return 0;
+                    }
+                    return o2.getTimestamp().compareTo(o1.getTimestamp());
+                }).collect(Collectors.toList());
     }
 
     public List<GetUserEvaluationDto> getUserEvaluations() {
@@ -65,25 +77,46 @@ public class StudentEvaluationService {
                 item.getImage().decompress();
             }
         });
+
         return this.evaluationRepository.findByUser(user).orElseThrow(UserNotFoundException::new).stream()
                 .filter(item -> !item.isActive() && JwtUtil.isRequestUserAdmin() || item.isActive())
                 .map(evaluation -> new GetUserEvaluationDto(
                         students.stream().filter(item -> item.getId().equals(evaluation.getStudentId()))
                                 .collect(Collectors.toList()).get(0),
                         new GetEvaluationDto(evaluation, user)
-                )).collect(Collectors.toList());
+                )).sorted((o1, o2) -> {
+                    if (o1.getEvaluation() != null && o1.getEvaluation().getTimestamp() == null || o2.getEvaluation() != null && o2.getEvaluation().getTimestamp() == null) {
+                        return 0;
+                    }
+                    return o2.getEvaluation().getTimestamp().compareTo(o1.getEvaluation().getTimestamp());
+                }).collect(Collectors.toList());
     }
 
     public List<GetEvaluationDto> getStudentEvaluationsById(Long studentId) {
         Student foundStudent = this.studentRepository.findById(studentId).orElseThrow(StudentNotFoundException::new);
         List<Evaluation> evaluations = this.evaluationRepository.findByStudent(foundStudent).orElseThrow(StudentNotFoundException::new);
         List<User> users = this.userRepository.findAll();
+
         return evaluations.stream()
                 .filter(item -> !item.isActive() && JwtUtil.isRequestUserAdmin() || item.isActive())
                 .map(evaluation -> {
                     User evaluationUser = users.stream().filter(item -> item.getId().equals(evaluation.getUserId())).findFirst().orElse(null);
                     return new GetEvaluationDto(evaluation, evaluationUser);
+                }).sorted((o1, o2) -> {
+                    if (o1.getTimestamp() == null || o2.getTimestamp() == null) {
+                        return 0;
+                    }
+                    return o2.getTimestamp().compareTo(o1.getTimestamp());
                 }).collect(Collectors.toList());
+    }
+
+    public GetEvaluationDto getEvaluationById(Long id) {
+        Evaluation evaluation = this.evaluationRepository.findById(id)
+                .filter(item -> !item.isActive() && JwtUtil.isRequestUserAdmin() || item.isActive())
+                .orElseThrow(EvaluationNotFoundException::new);
+        User user = this.userRepository.findById(evaluation.getUserId()).orElse(null);
+
+        return new GetEvaluationDto(evaluation, user);
     }
 
     public GetEvaluationDto addStudentEvaluation(BindingResult bindingResult, Long studentId, AddUpdateEvaluationDto evaluationDto) {
@@ -100,6 +133,7 @@ public class StudentEvaluationService {
                     .setEvaluation(evaluationDto.getEvaluation())
                     .setComment(evaluationDto.getComment())
                     .setIsActive(true).build());
+
             return new GetEvaluationDto(newEvaluation, user);
         } else {
             throw new InvalidStudentFormException("Invalid evaluation form values.");
@@ -155,12 +189,4 @@ public class StudentEvaluationService {
         }
     }
 
-    public GetEvaluationDto getEvaluationById(Long id) {
-        Evaluation evaluation = this.evaluationRepository.findById(id)
-                .filter(item -> !item.isActive() && JwtUtil.isRequestUserAdmin() || item.isActive())
-                .orElseThrow(EvaluationNotFoundException::new);
-        User user = this.userRepository.findById(evaluation.getUserId()).orElse(null);
-
-        return new GetEvaluationDto(evaluation, user);
-    }
 }
