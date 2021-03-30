@@ -15,6 +15,8 @@ import com.teamthree.studentevaluation.student.repository.ImageRepository;
 import com.teamthree.studentevaluation.student.repository.StudentRepository;
 import com.teamthree.studentevaluation.student.validators.ImageFormatValidator;
 import com.teamthree.studentevaluation.student.validators.StudentValidator;
+import com.teamthree.studentevaluation.user.entity.User;
+import com.teamthree.studentevaluation.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
@@ -34,14 +36,16 @@ public class StudentService {
     private final StudentValidator studentValidator;
     private final ImageFormatValidator imageFormatValidator;
     private final EvaluationRepository evaluationRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public StudentService(StudentRepository studentRepository, ImageRepository imageRepository, StudentValidator studentValidator, ImageFormatValidator imageFormatValidator, EvaluationRepository evaluationRepository) {
+    public StudentService(StudentRepository studentRepository, ImageRepository imageRepository, StudentValidator studentValidator, ImageFormatValidator imageFormatValidator, EvaluationRepository evaluationRepository, UserRepository userRepository) {
         this.studentRepository = studentRepository;
         this.imageRepository = imageRepository;
         this.studentValidator = studentValidator;
         this.imageFormatValidator = imageFormatValidator;
         this.evaluationRepository = evaluationRepository;
+        this.userRepository = userRepository;
     }
 
     public List<GetStudentWithAverageDto> getAllStudent() {
@@ -158,7 +162,21 @@ public class StudentService {
 
     public void disableStudent(Long studentId) {
         Student student = this.studentRepository.findById(studentId).orElseThrow(StudentNotFoundException::new);
-
+        this.evaluationRepository.findByStudent(student).ifPresent(studentEvaluations -> studentEvaluations.forEach(evaluation -> {
+            User evaluationUser = this.userRepository.getOne(evaluation.getUserId());
+            Evaluation disabledEvaluation = new Evaluation.EvaluationBuilder()
+                    .setIsActive(false)
+                    .setUser(evaluationUser)
+                    .setId(evaluation.getId())
+                    .setEvaluation(evaluation.getEvaluation())
+                    .setLearnAbility(evaluation.getLearnAbility())
+                    .setComment(evaluation.getComment())
+                    .setCommunication(evaluation.getCommunication())
+                    .setStudent(student)
+                    .setStream(evaluation.getStream())
+                    .setDirection(evaluation.getDirection()).build();
+            this.evaluationRepository.save(disabledEvaluation);
+        }));
         this.studentRepository.save(new Student(
                 student.getId(),
                 false,
