@@ -21,7 +21,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class StudentEvaluationService {
@@ -79,7 +81,10 @@ public class StudentEvaluationService {
         });
 
         return this.evaluationRepository.findByUser(user).orElseThrow(UserNotFoundException::new).stream()
-                .filter(item -> !item.isActive() && JwtUtil.isRequestUserAdmin() || item.isActive())
+                .filter(evaluation -> {
+                    boolean studentIsActive = students.stream().filter(student -> student.getId().equals(evaluation.getStudentId())).map(Student::isActive).findFirst().orElse(false);
+                    return (!evaluation.isActive() && JwtUtil.isRequestUserAdmin() || evaluation.isActive()) && studentIsActive;
+                })
                 .map(evaluation -> new GetUserEvaluationDto(
                         students.stream().filter(item -> item.getId().equals(evaluation.getStudentId()))
                                 .collect(Collectors.toList()).get(0),
