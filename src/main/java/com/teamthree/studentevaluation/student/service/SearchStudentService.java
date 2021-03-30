@@ -25,7 +25,7 @@ public class SearchStudentService {
         String searchMessage = value.toLowerCase();
         String[] values = value.toLowerCase().split(SPACE);
         List<Student> students = this.studentRepository.findAll().stream()
-                .filter(item -> !item.isActive() && JwtUtil.isRequestUserAdmin() || item.isActive())
+                .filter(Student::isActive)
                 .filter(item -> ArrayUtils.contains(values, item.getName().toLowerCase()) && ArrayUtils.contains(values, item.getLastname().toLowerCase())
                         || (item.getName() + SPACE + item.getLastname()).toLowerCase().contains(searchMessage)
                         || (item.getLastname() + SPACE + item.getName()).toLowerCase().contains(searchMessage))
