@@ -82,12 +82,12 @@ public class Evaluation {
 
     @PrePersist
     protected void onEvaluation() {
-        this.timestamp = new Timestamp(System.currentTimeMillis() + 10800000);
+        this.timestamp = new Timestamp(System.currentTimeMillis());
     }
 
     @PreUpdate
     protected void onUpdate() {
-        this.timestamp = new Timestamp(System.currentTimeMillis() + 10800000);
+        this.timestamp = new Timestamp(System.currentTimeMillis());
     }
 
     public Long getId() {
